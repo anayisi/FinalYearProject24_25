@@ -1,101 +1,209 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Home</title>
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-grid.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-grid.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-grid.rtl.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-grid.min.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-grid.rtl.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-grid.rtl.min.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-grid.rtl.min.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-reboot.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-reboot.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-reboot.min.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-reboot.rtl.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-reboot.rtl.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-reboot.rtl.min.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-reboot.rtl.min.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-utilities.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-utilities.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-utilities.min.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-utilities.min.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-utilities.rtl.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-utilities.rtl.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-utilities.rtl.min.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap-utilities.rtl.min.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.css.map.">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.rtl.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.rtl.css.map">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.rtl.min.css">
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.rtl.min.css.map">
-    <link rel="stylesheet" href="homeStyle.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Examination Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-hero-bg {
+            background: url('camps.jpg') no-repeat center center;
+            background-size: cover;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.7);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* full-page background */
+        body {
+            background: url('camps.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <img src="lg.png" width="5%" alt="Group Logo">
-        <div class="text-center">
-            <h2>UNIVERSITY OF ENERGY AND NATURAL RESOURCES</h2>
-            <h3>ONLINE EXAMINATION MANAGEMENT SYSTEM</h3>
-        </div>
-        <p><a href="Login.html" id="logIn"><button class="btn btn-primary">Login</button></a></p>
-    </header>
-    <div class="signup-section">
-        <a href="SignUp.html" id="signUp"><button class="btn btn-success btn-lg">Sign Up</button></a>
+<body class="font-sans bg-gray-50">
+
+    <!-- Color Bars constituting the top frame (Yellow, Green, Brown, Blue) -->
+    <div class="w-full h-2 flex">
+        <div class="flex-1 bg-yellow-400"></div>
+        <div class="flex-1 bg-green-600"></div>
+        <div class="flex-1 bg-yellow-900"></div>
+        <div class="flex-1 bg-blue-600"></div>
     </div>
-    <div class="content">
-        <hr>
-        <h2>About</h2>
-        <p>
-            Welcome to the Examination Management System (EMS) tailored specifically
-            for the University of Energy and Natural Resources (UENR).<br>
-            Our platform is designed to streamline and secure the entire examination
-            process, ensuring efficiency and integrity.<br>
+
+    <!-- Top Division - Navigation Pane -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex items-center justify-between">
+            <!-- Left side - Logo -->
+
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                    <img src="lg.png" alt="School Logo" class="rounded-full" id="school-logo">
+                </div>
+            </div>
+            <div class="flex-1 text-center">
+                <h2 class="text-4xl font-bold text-black-800">UNIVERSITY OF ENERGY AND NATURAL RESOURCES</h2>
+                <h3 class="text-2xl font-bold text-green-800">ONLINE EXAMINATION MANAGEMENT SYSTEM</h3>
+            </div>
+
+            <!-- Right side - Login Button -->
+            <div>
+                <a href="login.html" id="logIn">
+                    <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-medium transition duration-300 flex items-center">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Login
+                    </button>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <!-- Middle Division - Hero Section with Sign Up Button -->
+    <main class="gradient-bg text-white">
+    <div class="container mx-auto px-6 py-20 text-center bg-black bg-opacity-40 rounded-lg">
+        <h2 class="text-4xl font-bold mb-6"> Streamline your examination process</h2>
+        <p class="text-xl mb-10 max-w-2xl mx-auto">
+            Welcome to the Examination Management System (EMS) tailored specifically for the University of Energy and Natural Resources (UENR).
+            Our platform is designed to streamline and secure the entire examination process, ensuring efficiency and integrity.
         </p>
-        <p>
-            <h4>Key Features</h4>
-            <p>
-            <b>User Management:</b>
-            Effortlessly manage students, lecturers, and staff with role-based access and permissions.
-            </p>
-            <p>
-            <b>Secure Question Bank:</b>
-            Centralized storage for exam questions to prevent unauthorized access and leaks.
-            </p>
-            <p>
-            <b>Instant Result Generation:</b>
-            Quick and accurate result processing for timely feedback.
-            </p>
-            <p>
-            <b>Seamless Communication:</b>
-            Integrated messaging system for efficient communication to lecturers, and administrators.
-            </p>
-            <p>
-            <b>Data Backup and Recovery:</b>
-            Robust backup and recovery options to safeguard all exam-related data.
-            </p>
-        </p>
-        <p>
-            <h4>Our Mission</h4>
-            Our mission is to enhance the efficiency and security of UENR's examination process
-            through innovative technology, providing a reliable and user-friendly platform for all users.<br>
-            Thank you for choosing our Examination Management System. We are dedicated
-            to supporting UENR's academic excellence and operational efficiency.<br>
-        </p>
-    </div>    
-    <footer>
-        Developers: Ayisi Emmanuel | Sofaraa Agyei Joseph | Akandi Raphael
-        <p>&copy; 2024, All rights reserved.</p>
+        
+        <!-- Bold Sign Up Button -->
+        <a href="signup.html" id="signUp">
+            <button class="bg-green-600 text-white hover:bg-green-700 px-10 py-4 rounded-full font-bold text-xl transition duration-300 btn-glow">
+                SIGN UP NOW <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </a>
+        <!-- Feature Highlights -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
+            <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm feature-card transition duration-300">
+                <i class="fas fa-laptop-code text-4xl mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Online Examination</h3>
+                <p>Conduct secure online exams effectively on a reliable platform.</p>
+            </div>
+            <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm feature-card transition duration-300">
+                <i class="fas fa-chart-bar text-4xl mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Analytics</h3>
+                <p>Get detailed performance analytics and insights for better decision making.</p>
+            </div>
+            <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm feature-card transition duration-300">
+                <i class="fas fa-shield-alt text-4xl mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Security</h3>
+                <p>Advanced security measures to prevent cheating and ensure exam integrity.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+    <!-- Lower Division - About Section -->
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">About Our Examination System</h2>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-green-700 mb-3">Comprehensive Examination Management</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Welcome to the Examination Management System (EMS) tailored specifically for the University of Energy and Natural Resources (UENR).
+Our platform is designed to streamline and secure the entire examination process, ensuring efficiency and integrity.
+                    </p>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-green-700 mb-3">Key Features</h3>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Secure online exam creation and delivery</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Automated grading and result processing</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Advanced anti-cheating mechanisms</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Comprehensive reporting and analytics</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Multi-device compatibility</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Integration with existing school systems</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-green-700 mb-3">Benefits for Institutions</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        By implementing our system, educational institutions can significantly reduce administrative workload, 
+                        minimize paper usage, enhance examination security, and gain valuable insights into student performance. 
+                        The platform is designed to be user-friendly for both administrators and students, ensuring a smooth 
+                        examination experience for all stakeholders.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
+                            <img src="lg.png" alt="School Logo" class="rounded-full">
+                        </div>
+                        <span class="font-bold">UNIVERSITY OF ENERGY AND NATURAL RESOURCES</span>
+                    </div>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400 text-sm">
+                <p>Developers : Aadil | Hajara | Muhammadu </p>
+                <p>© 2025 Online Examination Management System. All rights reserved.</p>
+            </div>
+          
     </footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // You can add JavaScript functionality here
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Replace logo with your school's logo by changing the src attribute
+        function replaceLogo(newLogoUrl) {
+            document.getElementById('school-logo').src = newLogoUrl;
+        }
+        
+        // Example usage:
+        // replaceLogo('path/to/your/school-logo.png');
+        // You can call this function with the URL of your school's logo image
+        // when the page loads or based on some condition.
+        window.onload = function() {
+            // Example: replace logo on page load
+            replaceLogo('lg.png'); // Change 'lg.png' to the path of your logo image
+        };
+    </script>
 </body>
 </html>

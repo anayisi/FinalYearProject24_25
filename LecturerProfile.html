@@ -3,391 +3,696 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lecturer Page</title>
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('Lecturer.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('user-type').textContent = 'Lecturer';
-                    document.getElementById('user-name').textContent = data.lecturer.name;
-                    document.getElementById('user-email').textContent = data.lecturer.email;
-                    document.getElementById('user-dob').textContent = data.lecturer.dob;
-
-                    // Populate all students' results
-                    const allResultsTableBody = document.getElementById('all-results-table-body');
-                    data.all_results.forEach(result => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${result.name}</td>
-                            <td>${result.email}</td>
-                            <td>${result.exam_id}</td>
-                            <td>${result.score}</td>
-                        `;
-                        allResultsTableBody.appendChild(row);
-                    });
-                } else {
-                        alert('Failed to load user details.');}
-            })
-            .catch(error => console.error('Error:', error));
-        });
-        // Function to fetch questions
-        function fetchQuestions() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "fetch_questions.php", true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById("questionTable").innerHTML = xhr.responseText;
-                }
-            };
-            xhr.send();
-        }
-
-        // Call fetchQuestions on page load
-        window.onload = fetchQuestions;
-
-        function removeQuestion(button) {
-            var row = button.parentElement.parentElement;
-            var questionId = row.cells[0].innerHTML;
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "delete_question.php", true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    fetchQuestions();
-                }
-            };
-            xhr.send("id=" + questionId);
-        }
-        
-    </script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: #343a40;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        header img {
-            margin-right: 1rem;
-        }
-
-        header .text-center {
-            margin: 0;
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        header h3 {
-            margin: 0;
-        }
-
-        header h5 {
-            margin: 0;
-            font-size: 0.8rem;
-        }
-
-        header p {
-            margin: 0;
-        }
-
-        header button {
-            margin-left: 1rem;
-        }
-
-        footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            width: 100%;
-            margin-top: auto;
-        }
-
-        .container {
-            flex: 1;
-            display: flex;
-            flex-direction: row;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #f8f9fa;
-            padding-top: 20px;
-        }
-
-        .content {
-            flex: 1;
-            padding: 20px;
-        }
-
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        #middle {
-            width: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
-            margin: 0;
-        }
-
-        .chatbox {
-            border: 1px solid #ccc;
-            padding: 10px;
-            height: 400px;
-            overflow-y: scroll;
-        }
-
-        .message {
-            margin-bottom: 10px;
-        }
-
-        .message.admin {
-            text-align: right;
-        }
-
-        .message p {
-            margin: 0;
-        }
-
-        .message .time {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        .input-width {
-            width: 50%; /* Decrease width of the input field */
-        }
-
-        .button-width {
-            width: 20%; /* Increase width of the button */
-        }
-    </style>
+    <title>Lecturer Dashboard - Online Examination Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="all.css">
+    <link rel="stylesheet" href="lecturer.css">
 </head>
-
-<body>
-    <header class="text-center">
-        <img src="lg.png" width="5%" alt="Group Logo">
-        <div class="text-center">
-            <h2>UNIVERSITY OF ENERGY AND NATURAL RESOURCES</h2>
-            <h3>ONLINE EXAMINATION MANAGEMENT SYSTEM</h3>
-        </div>
-        <p><a href="Login.html" id="logout"><button class="btn btn-outline-primary">Logout</button></a></p>
+<body class="font-sans bg-gray-50">
+    <!-- Color Bars constituting the top frame (Yellow, Green, Brown, Blue) -->
+    <div class="w-full h-2 flex">
+        <div class="flex-1 bg-yellow-400"></div>
+        <div class="flex-1 bg-green-600"></div>
+        <div class="flex-1 bg-yellow-900"></div>
+        <div class="flex-1 bg-blue-600"></div>
+    </div>
+    <!-- Header Section -->
+      <header class="bg-white shadow-md">
+        <nav class="container mx-auto px-6 py-3 flex items-center justify-between">
+            <!-- Left side - Logo Placeholder -->
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                    <!-- Place your logo here -->
+                    <img src="lg.png" alt="University Logo" class="rounded-full object-cover w-12 h-12">
+                </div>
+            </div>
+            <!-- right dashboard title -->
+            <div class="flex-1 text-left">
+                <h1 class="text-2xl font-bold text-black-800">LECTURER DASHHBOARD</h1>
+            </div>
+    
+         <button id="logoutBtn" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg flex items-center text-white font-bold">
+    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+</button>
     </header>
 
-    <div class="container" id="middle">
-        <div class="sidebar">
-            <button class="btn btn-link btn-block" onclick="showSection('personal-details')">Personal Details</button>
-            <button class="btn btn-link btn-block" onclick="showSection('mount-unmount')">Mount/Unmount Questions</button>
-            <button class="btn btn-link btn-block" onclick="showSection('view-results')">View Results</button>
-            <button class="btn btn-link btn-block" onclick="showSection('feedback')">Feedback</button>
+
+    <!-- Main Content Section -->
+    <main class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <div class="w-64 bg-gray-800 text-white p-4">
+            <nav>
+                <ul class="space-y-2">
+                    <li>
+                        <button class="tab-btn active w-full text-left p-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition" data-tab="personal">
+                            <i class="fas fa-user mr-2"></i> Personal Details
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="questions">
+                            <i class="fas fa-question-circle mr-2"></i> Questions
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="results">
+                            <i class="fas fa-poll mr-2"></i> Results
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="resultsOverview">
+                            <i class="fas fa-book mr-2"></i> Results Overview
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="feedback">
+                            <i class="fas fa-comments mr-2"></i> Feedback
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
-        <div class="content">
-            <div id="personal-details" class="content-section active">
-                <h2 class="text-center">PERSONAL DETAILS</h2>
-                <div id="details-view">
-                    <p><strong>User Type:</strong> <span id="user-type"></span></p>
-                    <p><strong>Name:</strong> <span id="user-name"></span></p>
-                    <p><strong>Email:</strong> <span id="user-email"></span></p>
-                    <p><strong>Date of Birth:</strong> <span id="user-dob"></span></p>
-                    <button class="btn btn-primary" onclick="editDetails()">Edit</button>
+        <!-- Tab Content Area -->
+        <div class="flex-1 p-8">
+            <!-- Personal Details Tab -->
+            <div id="personal" class="tab-content active">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Personal Details</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md max-w-lg">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="font-semibold text-gray-700">User Type:</label>
+                            <p class="mt-1" id="userType"> </p>
+                        </div>
+                        <div>
+                            <label class="font-semibold text-gray-700">Name:</label>
+                            <p class="mt-1" id="userName"> </p>
+                        </div>
+                        <div>
+                            <label class="font-semibold text-gray-700">Email:</label>
+                            <p class="mt-1" id="userEmail"> </p>
+                        </div>
+                        <div>
+                            <label class="font-semibold text-gray-700">Date of Birth:</label>
+                            <p class="mt-1" id="userDob"> </p>
+                        </div>
+                        <div>
+                            <label class="font-semibold text-gray-700">ID Number:</label>
+                            <p class="mt-1" id="userId"> </p>
+                        </div>
+                    </div>
+                    <button id="editDetailsBtn" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                        <i class="fas fa-edit mr-2"></i> Edit Details
+                    </button>
                 </div>
-                <div id="details-edit" style="display: none;">
-                    <form>
-                        <div class="form-group">
-                            <label for="editLecturerName">Name:</label>
-                            <input type="text" class="form-control" id="editLecturerName" value="">
+            </div>
+
+            <!-- Questions Tab -->
+            <div id="questions" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Questions Management</h2>
+                
+                <!-- Upload Questions Section -->
+                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700">Upload Questions from File</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block font-semibold text-gray-700 mb-2">Exam ID:</label>
+                            <input type="text" id="examId" name="examId" placeholder="Enter exam ID (e.g., CS101)" class="w-full border rounded-lg p-2">
                         </div>
-                        <div class="form-group">
-                            <label for="editLecturerEmail">Email:</label>
-                            <input type="email" class="form-control" id="editLecturerEmail" value="">
+                        <div>
+                            <label class="block font-semibold text-gray-700 mb-2">Select Question File:</label>
+                            <div class="flex items-center space-x-4">
+                                <input type="file" id="questionFile" name="questionFile" accept=".txt" class="flex-1 border rounded-lg p-2">
+                                <button type="submit" id="uploadQuestionsBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                                    <i class="fas fa-upload mr-2"></i> Upload
+                                </button>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">File format: One question per line ending with '?', followed by options between // marks (e.g., What is 2+2? //4//5//6//7//A)</p>
                         </div>
-                        <div class="form-group">
-                            <label for="editLecturerDob">Date of Birth:</label>
-                            <input type="date" class="form-control" id="editLecturerDob" value="">
+                    </div>
+                </div>
+                
+                <!--TYPE QUESTIONS SECTION-->
+                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700">Type Questions</h3>
+                    <form id="TypeQuestionForm" class="space-y-4">
+                        <div>
+                            <label class="block font-semibold text-gray-700 mb-2">Exam ID:</label>
+                            <input type="text" id="TexamId" name="examId" placeholder="Enter exam ID (e.g., CS101)" class="w-full border rounded-lg p-2">
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="saveDetails()">Save</button>
-                        <button type="button" class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
+                        <div>
+                            <label class="block font-semibold text-gray-700 mb-2">Question:</label>
+                            <textarea id="TquestionText" name="questionText" placeholder="Enter question" rows="3" class="w-full border rounded-lg p-2 resize-none"></textarea>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-semibold text-gray-700 mb-2">Option A:</label>
+                                <input type="text" id="ToptionA" name="optionA" placeholder="Option A" class="w-full border rounded-lg p-2">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-gray-700 mb-2">Option B:</label>
+                                <input type="text" id="ToptionB" name="optionB" placeholder="Option B" class="w-full border rounded-lg p-2">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-gray-700 mb-2">Option C:</label>
+                                <input type="text" id="ToptionC" name="optionC" placeholder="Option C" class="w-full border rounded-lg p-2">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-gray-700 mb-2">Option D:</label>
+                                <input type="text" id="ToptionD" name="optionD" placeholder="Option D" class="w-full border rounded-lg p-2">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-gray-700 mb-2">Correct Answer:</label>
+                            <select id="TcorrectAnswer" name="correctAnswer" class="w-full border rounded-lg p-2">
+                                <option value="">Select Correct Answer</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="addQuestionBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                            <i class="fas fa-plus mr-2"></i> Add Question
+                        </button>
                     </form>
                 </div>
-            </div>
-
-            <div id="mount-unmount" class="content-section">
-                <h2 class="text-center">MOUNT/UNMOUNT QUESTIONS</h2>
-                <div class="mt-4">
-                    <h5>Upload New Questions</h5>
-                    <form action="upload.php" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="exam_id">Exam ID:</label>
-                            <input type="text" class="form-control" id="exam_id" name="exam_id" required>
+                <!--<div id="TypedQuestionMessage" class="hidden bg-green-100 text-green-700 p-4 rounded-lg mb-4"></div>-->
+                            
+                <!-- View/Edit Questions Section -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700">View/Edit Questions</h3>
+                    <div class="space-y-4 mb-4">
+                        <div class="flex items-center space-x-4">
+                            <input type="text" id="viewExamId" placeholder="Enter exam ID to view questions" class="flex-1 border rounded-lg p-2">
+                            <button id="populateQuestionsBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                                <i class="fas fa-search mr-2"></i> Populate
+                            </button>
                         </div>
-                        <div class="form-group">
-                            <label for="questionFile">Select File:</label>
-                            <input type="file" class="form-control-file" id="questionFile" name="questionFile" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Upload</button>
-                    </form>                    
-                </div>
-                <div class="mt-4">
-                    <h5>Manage Questions</h5>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Q. ID</th>
-                                <th>Question</th>
-                                <th>Option A</th>
-                                <th>Option B</th>
-                                <th>Option C</th>
-                                <th>Option D</th>
-                                <th>Answer</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="questionTable">
-                            <!-- Dynamic content will be inserted here by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="view-results" class="content-section">
-                <h2 class="text-center">VIEW RESULTS</h2>
-                <form id="resultForm">
-                    <div class="form-group d-flex mt-3">
-                        <input type="text" class="form-control input-width" id="exam_idd" name="exam_id" placeholder="Enter Exam ID" required>
-                        <button type="button" class="btn btn-primary button-width ml-2" onclick="fetchResults()">View Result</button>
                     </div>
-                </form>
-                
-                <div id="resultContainer" class="mt-4">
-                    <!-- Results will be displayed here -->
+                    
+                    <div class="overflow-x-auto">
+                        <table id="questionsTable" class="min-w-full bg-white border rounded-lg">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Question ID</th>
+                                    <th class="py-2 px-4 border-b">Question No.</th>
+                                    <th class="py-2 px-4 border-b">Question</th>
+                                    <th class="py-2 px-4 border-b">Option A</th>
+                                    <th class="py-2 px-4 border-b">Option B</th>
+                                    <th class="py-2 px-4 border-b">Option C</th>
+                                    <th class="py-2 px-4 border-b">Option D</th>
+                                    <th class="py-2 px-4 border-b">Answer</th>
+                                    <th class="py-2 px-4 border-b">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="questionsTableBody">
+                                <!-- Will be populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div id="feedback" class="content-section">
-                <h2 class="text-center">FEEDBACK</h2>
-                <div class="chatbox" id="chatbox">
-                    <!-- Example messages -->
-                    <div class="message">
-                        <p>Student: Can you explain question 3?</p>
-                        <span class="time">12:45 PM</span>
-                    </div>
-                    <div class="message admin">
-                        <p>Admin: Sure, question 3 is about...</p>
-                        <span class="time">12:47 PM</span>
+            <!-- Results Tab -->
+            <div id="results" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Exam Results</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="space-y-4">
+                        <label for="resultExamId" class="block font-semibold text-gray-700 mb-2">Enter Exam ID to view results:</label>
+                        <div class="flex items-center space-x-4">
+                            <input type="text" id="resultExamId" placeholder="e.g. HIST101" class="flex-1 border rounded-lg p-2">
+                            <button id="viewResultsBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                                View Results
+                            </button>
+                        </div>
+                        
+                        <div id="resultsTableContainer" class="hidden">
+                            <div class="overflow-x-auto">
+                                <table id="resultsTable" class="min-w-full bg-white border rounded-lg">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="py-2 px-4 border-b">Student Name</th>
+                                            <th class="py-2 px-4 border-b">Student Id</th>
+                                            <th class="py-2 px-4 border-b">Exam Id</th>
+                                            <th class="py-2 px-4 border-b">Result No.</th>
+                                            <th class="py-2 px-4 border-b">Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="resultsTableBody">
+                                        <!-- Will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <form id="chatForm">
-                    <div class="form-group mt-3">
-                        <textarea class="form-control" id="chatInput" rows="3" placeholder="Type your message..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send</button>
-                </form>
             </div>
+
+            <!-- Results Overview -->
+            <div id="resultsOverview" class="tab-content">
+                <h2 class="text-xl font-semibold mb-4">Top Scores</h2>
+                <button onclick="downloadExcel()" class="bg-green-600 text-white px-4 py-2 rounded mb-4">Download as Excel</button>
+                <table id="TopResultsTable" class="w-full border-collapse border">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-2">Index Number</th>
+                            <th class="border p-2">Name</th>
+                            <th class="border p-2">Course ID</th>
+                            <th class="border p-2">Score</th>
+                            <th class="border p-2">Attempt No.</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Feedback Tab for Lecturer -->
+            <div id="feedback" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Feedback</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex">
+                        <!-- Admin List -->
+                        <div class="w-1/3 pr-4 border-r">
+                            <h3 class="text-lg font-semibold mb-4">Administrators</h3>
+                            <div class="space-y-2 max-h-96 overflow-y-auto" id="adminList">
+                                <!-- Filled via JS -->
+                            </div>
+                        </div>
+                        <!-- Conversation Area -->
+                        <div class="flex-1 pl-4">
+                            <h3 class="text-lg font-semibold mb-4">Conversation</h3>
+                            <div id="conversation" class="chat-message mb-4 p-4 bg-gray-50 rounded-lg h-64 overflow-y-auto">
+                                <p class="text-gray-500 italic">Select an administrator to view conversation</p>
+                            </div>
+                            <!-- Message Input -->
+                            <div class="flex items-center">
+                                <textarea id="messageInput" placeholder="Type your message..." rows="3" class="flex-1 border rounded-l-lg p-2"></textarea>
+                                <button type="submit" id="sendMessageBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg">
+                                    <i class="fas fa-paper-plane"></i> Send
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+ <footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto px-6">
+        <div class="border-t border-gray-700 text-center text-gray-400 text-sm">
+            Developers: Aadil Yahuza Harun | Hajara Larabu | Ocloo M.S. Gakpetor
+            <p>&copy; 2025, All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- Edit Details Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Edit Personal Details</h3>
+                <button id="closeModal" class="text-red-700 hover:text-gray-700">&times;</button>
+            </div>
+            <form id="editForm" class="space-y-4">
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Name:</label>
+                    <input type="text" id="editName" class="w-full border rounded-lg p-2" required>
+                </div>
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Email:</label>
+                    <input type="email" id="editEmail" class="w-full border rounded-lg p-2" required>
+                </div>
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Date of Birth:</label>
+                    <input type="date" id="editDob" class="w-full border rounded-lg p-2" required>
+                </div>
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" id="cancelEdit" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                        <i class="fas fa-save mr-2"></i> Save Changes
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <footer class="text-center">
-        Developers: Ayisi Emmanuel | Sofaraa Agyei Joseph | Akandi Raphael
-        <p>&copy; 2024, All rights reserved.</p>
-    </footer>
-
+    <!-- Edit Question Modal -->
+    <div id="editQuestionModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Edit Question</h3>
+                <button id="closeEditQuestionModal" class="text-gray-500 hover:text-gray-700">&times;</button>
+            </div>
+            <form id="editQuestionForm" class="space-y-4">
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Question:</label>
+                    <textarea type="text" id="editQuestionText" class="w-full border rounded-lg p-2" required></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">Option A:</label>
+                        <input type="text" id="editOptionA" class="w-full border rounded-lg p-2" required>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">Option B:</label>
+                        <input type="text" id="editOptionB" class="w-full border rounded-lg p-2" required>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">Option C:</label>
+                        <input type="text" id="editOptionC" class="w-full border rounded-lg p-2" required>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">Option D:</label>
+                        <input type="text" id="editOptionD" class="w-full border rounded-lg p-2" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Correct Answer:</label>
+                    <select id="editCorrectAnswer" class="w-full border rounded-lg p-2" required>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" id="cancelEditQuestion" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                        <i class="fas fa-save mr-2"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- JavaScript Section -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="all.js"></script>
+    <script src="lecturer.js"></script>
     <script>
-        function showSection(sectionId) {
-            var sections = document.getElementsByClassName('content-section');
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].classList.remove('active');
-            }
-            document.getElementById(sectionId).classList.add('active');
-        }
 
-        function editDetails() {
-            document.getElementById('details-view').style.display = 'none';
-            document.getElementById('details-edit').style.display = 'block';
-
-            document.getElementById('editLecturerName').value = document.getElementById('user-name').innerText;
-            document.getElementById('editLecturerEmail').value = document.getElementById('user-email').innerText;
-            document.getElementById('editLecturerDob').value = document.getElementById('user-dob').innerText;
-        }
-
-        function saveDetails() {
-            var name = document.getElementById('editLecturerName').value;
-            var email = document.getElementById('editLecturerEmail').value;
-            var dob = document.getElementById('editLecturerDob').value;
-        
-            // AJAX request to update details in the database
-            fetch('updateLecturerdetails.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    dob: dob
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update the UI with the new details
-                    document.getElementById('user-name').innerText = name;
-                    document.getElementById('user-email').innerText = email;
-                    document.getElementById('user-dob').innerText = dob;
-                    cancelEdit();
-                    alert('Details updated successfully');
-                } else {
-                    alert('Failed to update details');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        function cancelEdit() {
-            document.getElementById('details-view').style.display = 'block';
-            document.getElementById('details-edit').style.display = 'none';
-        }
-
-        function fetchResults() {
-            const exam_id = document.getElementById('exam_idd').value;
-            
-            if (exam_id) {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'fetch_results_lec.php', true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        document.getElementById('resultContainer').innerHTML = xhr.responseText;
+        //Fetch top results....
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('get_top_results.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        const tbody = document.querySelector('#TopResultsTable tbody');
+                        data.results.forEach(row => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td class="border p-2">${row.student_idNum}</td>
+                                <td class="border p-2">${row.student_name}</td>
+                                <td class="border p-2">${row.exam_id}</td>
+                                <td class="border p-2">${row.score}</td>
+                                <td class="border p-2">${row.attempts}</td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                    } else {
+                        alert(data.message || 'Failed to load results.');
                     }
-                };
-                
-                xhr.send('exam_id=' + exam_id);
-            } else {
-                alert('Please enter an Exam ID.');
-            }
+                });
+        });
+
+        function downloadExcel() {
+            const table = document.getElementById('TopResultsTable');
+            const wb = XLSX.utils.book_new();
+            
+            const ws_data = [];
+
+            const examQuestionCount = {};
+
+            // Step 1: Build exam_id set from table
+            const rows = table.querySelectorAll('tbody tr');
+            const examIds = new Set();
+
+            rows.forEach(row => {
+                const examId = row.querySelectorAll('td')[2].textContent.trim();
+                examIds.add(examId);
+            });
+
+            //console.log("Exam IDs being sent:", Array.from(examIds));
+            // Step 2: Fetch question counts from server for each unique exam_id
+            fetch('get_exam_question_counts.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ exam_ids: Array.from(examIds) })
+            })
+            .then(res => res.json())
+            .then(counts => {
+                //console.log("Raw response from server:", counts);
+                // Step 3: Add question summary to sheet
+                Object.entries(counts).forEach(([exam_id, question_count]) => {
+                    ws_data.push([`Total number of questions for ${exam_id}: ${question_count}`]);
+                });
+
+                ws_data.push([]); // empty row between header and table
+
+                // Step 4: Add table headers
+                ws_data.push(['Index Number', 'Name', 'Course ID', 'Score', 'Attempt No.']);
+                const colWidths = [0, 0, 0, 0, 0];
+
+                // Step 5: Add table rows
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    const scoreFull = cells[3].textContent.trim();     // e.g. "2/3"
+                    const correctAnswers = scoreFull.split('/')[0];    // get only "2"
+
+                    const rowData = [
+                        cells[0].textContent.trim(),
+                        cells[1].textContent.trim(),
+                        cells[2].textContent.trim(),
+                        correctAnswers,
+                        cells[4].textContent.trim()
+                    ];
+
+                    // Update col widths
+                    rowData.forEach((cell, i) => {
+                        const len = cell.length;
+                        if (len > colWidths[i]) colWidths[i] = len;
+                    });
+
+                    ws_data.push(rowData);
+                });
+
+                // Step 6: Create sheet
+                const ws = XLSX.utils.aoa_to_sheet(ws_data);
+                ws['!cols'] = colWidths.map(w => ({ wch: w + 2 }));
+
+                XLSX.utils.book_append_sheet(wb, ws, "Results");
+                XLSX.writeFile(wb, "student_results.xlsx");
+            })
+            .catch(err => {
+                console.error("Error fetching question counts:", err);
+                alert("Failed to fetch question counts.");
+            });
         }
+
+        $(document).ready(function () {
+            let selectedAdmin = null;
+            let pollingConversation = null;
+            let pollingAdminList = null;
+
+            // Load Admins
+            function loadAdmins(scrollToSelected = false) {
+                $.ajax({
+                    url: 'fetch_lecturer_admins.php',
+                    method: 'GET',
+                    success: function (data) {
+                        if (data.error) {
+                            alert("Error: " + data.error);
+                            return;
+                        }
+
+                        const adminList = $('#adminList').empty();
+                        data = JSON.parse(data);
+                        
+                        data.forEach(admin => {
+                            
+                            // Check if this admin is the selected one by comparing IDs
+                            const isSelected = selectedAdmin && (admin.id === selectedAdmin.id);
+                            // Show dot only if admin has unread AND is NOT the selected admin
+                            const showDot = admin.has_unread && !isSelected;
+                            const dot = showDot ? '<span class="inline-block w-2 h-2 bg-red-500 rounded-full ml-2"></span>' : '';
+
+                            const adminItem = $(`
+                                <div class="cursor-pointer hover:bg-gray-100 p-2 rounded admin-item" data-id="${admin.id}">
+                                    ${admin.name} ${dot}
+                                </div>
+                            `);
+                            adminList.append(adminItem);
+                        });
+                        if (scrollToSelected && selectedAdmin) {
+                            $(`.admin-item[data-id="${selectedAdmin.id}"]`).addClass('bg-gray-200');
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("Failed to load admins: " + xhr.responseText);
+                    }
+                });
+            }
+            function startAdminPolling() {
+                if (pollingAdminList) clearInterval(pollingAdminList);
+                pollingAdminList = setInterval(() => {
+                    loadAdmins(true); // true keeps the selected admin visible/highlighted
+                }, 5000);
+            }
+
+            function startConversationPolling(adminId) {
+                if (pollingConversation) clearInterval(pollingConversation);
+                pollingConversation = setInterval(() => {
+                    if (selectedAdmin) {
+                        loadConversation(adminId, true);
+                        markAsRead(adminId);
+                    }
+                }, 5000);
+            }
+
+            // Load conversation
+            function loadConversation(adminId, scroll = true) {
+                $.ajax({
+                    url: 'fetch_conversation_lecturer.php',
+                    method: 'POST',
+                    data: { admin_id: adminId },
+                    success: function (data) {
+                        if (data.error) {
+                            alert("Error: " + data.error);
+                            return;
+                        }
+
+                        data = JSON.parse(data);
+                        const chatBox = $('#conversation').empty();
+                        if (data.length === 0) {
+                            chatBox.html('<p class="text-gray-500 italic">No messages yet</p>');
+                            return;
+                        }
+
+                        data.forEach(msg => {
+                            const align = msg.sender_type === 'lecturer' ? 'text-right' : 'text-left';
+                            const bg = msg.sender_type === 'lecturer' ? 'bg-blue-100' : 'bg-green-100';
+                            const bubble = `<div class="${align} mb-2"><span class="inline-block ${bg} px-3 py-2 rounded-lg">${msg.message}</span></div>`;
+                            chatBox.append(bubble);
+                        });
+
+                        if (scroll) {
+                            chatBox.scrollTop(chatBox[0].scrollHeight);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("Failed to load conversation: " + xhr.responseText);
+                    }
+                });
+            }
+
+            // Mark as read
+            function markAsRead(adminId) {
+                $.ajax({
+                    url: 'mark_as_read_lecturer.php',
+                    method: 'POST',
+                    data: { admin_id: adminId },
+                    error: function (xhr) {
+                        alert("Failed to mark messages as read: " + xhr.responseText);
+                    }
+                });
+            }
+
+            // Send message
+            $('#sendMessageBtn').on('click', function () {
+                if (!selectedAdmin) {
+                    alert("Select an administrator first.");
+                    return;
+                }
+
+                const message = $('#messageInput').val().trim();
+                if (message === '') {
+                    alert("Message cannot be empty.");
+                    return;
+                }
+
+                $.ajax({
+                    url: 'send_message_lecturer.php',
+                    method: 'POST',
+                    data: {
+                        admin_id: selectedAdmin.id,
+                        message: message
+                    },
+                    success: function (data) {
+                        if (data.error) {
+                            alert("Error: " + data.error);
+                            return;
+                        }
+
+                        $('#messageInput').val('');
+                        loadConversation(selectedAdmin.id);
+                        loadAdmins(true); // also refresh admin list after sending
+                    },
+                    error: function (xhr) {
+                        alert("Failed to send message: " + xhr.responseText);
+                    }
+                });
+            });
+
+           // Handle admin click
+            $('#adminList').on('click', '.admin-item', function () {
+                const adminId = $(this).data('id');
+                selectedAdmin = { id: adminId };
+
+                // Remove highlight from all
+                $('.admin-item').removeClass('bg-blue-100 font-semibold text-blue-800');
+
+                // Add highlight to selected
+                $(this).addClass('bg-blue-100 font-semibold text-blue-800');
+
+                loadConversation(adminId);
+                markAsRead(adminId);
+                // Remove notification dot (if any)
+                $(this).find('span').remove();
+                $(this).addClass('bg-gray-200');
+
+                startConversationPolling(adminId);
+            });
+
+            loadAdmins();
+            startAdminPolling();
+        });
+
+        //Populate User Details    
+        fetch('lecturer.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('userType').textContent = 'Lecturer';
+                document.getElementById('userName').textContent = data.lecturer.name;
+                document.getElementById('userEmail').textContent = data.lecturer.email;
+                document.getElementById('userDob').textContent = data.lecturer.dob;
+                document.getElementById('userId').textContent = data.lecturer.id_num;
+            } else {
+                    alert('Failed to load user details.');}
+        })
+        .catch(error => console.error('Error:', error));
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Clear session or any authentication tokens
+            sessionStorage.removeItem('lecturerLoggedIn');
+            
+            // Redirect to login page
+            window.location.href = 'login.html';
+            
+            // Prevent back button navigation
+            window.history.pushState(null, null, 'login.html');
+            window.onpopstate = function() {
+                window.history.pushState(null, null, 'login.html');
+            };
+        });
     </script>
 </body>
-</html>
+</html>    

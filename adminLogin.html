@@ -7,25 +7,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background: url('Bg1.jpg') no-repeat center center fixed;
-            background-size: cover;
-        }
-        .color-bar {
-            height: 5px;
-            display: flex;
-        }
-        .color-bar div {
-            flex: 1;
-        }
-        .green-form {
-            background-color: rgba(34, 197, 94, 0.15); /* subtle green bg */
+       .gradient-bg {
+    background: #fff; /* Set background to white */
+}
+        .login-form {
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
         }
         .input-field:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
         }
         .loading-spinner {
             display: none;
@@ -39,6 +30,17 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        .color-bar {
+    display: flex;
+    width: 100%;
+    height: 8px; /* Adjust height as needed */
+}
+.color-bar > div {
+    flex: 1;
+}
+header {
+    border: 1px solid #e5e7eb; /* Tailwind's gray-200 */
+}
     </style>
 </head>
 <body class="font-sans min-h-screen flex flex-col">
@@ -81,9 +83,9 @@
     <!-- Middle Division - Login Form -->
     <main class="flex-grow gradient-bg flex items-center justify-center p-6">
         <div class="login-form bg-white bg-opacity-90 p-8 rounded-xl w-full max-w-md">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Login to Your Account</h2>
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Login As Admin</h2>
             
-            <form id="login-form" method="post" action="login.php">
+            <form id="login-form" method="post" action="adminLogin.php">
                 <div class="mb-4">
                     <label for="email" class="block text-gray-700 font-medium mb-2">Email/Username</label>
                     <input type="email" id="email" name="email" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500 transition" placeholder="Enter your email or username" required>
@@ -122,6 +124,7 @@
         </div>
     </div>
 </footer>
+
     <script>
         // Toggle password visibility
         document.getElementById('togglePassword').addEventListener('click', function() {
@@ -157,17 +160,15 @@
             const form = e.target;
             const formData = new FormData(form);
             try {
-                fetch('login.php', {
+                fetch('adminLogin.php', {
                     method: 'POST',
                     body: formData,
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        if (data.role === 'student') {
-                            window.location.href = 'StudentProfile.html';
-                        } else if (data.role === 'lecturer') {
-                            window.location.href = 'LecturerProfile.html';
+                       if (data.role === 'admin') {
+                            window.location.href = 'AdminProfile.html';
                         }
                     } else {
                         const errorMessage = document.getElementById('error-message');

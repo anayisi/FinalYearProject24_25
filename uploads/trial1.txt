@@ -1,0 +1,3 @@
+What is 1+8? //10//9//8//7//A
+Who is USA's President? //Kamala//George//Trump//Obama//C
+Capital of Burkina Faso? //Ouagadugu//Yamosokro//Tumu//Koforidua//A

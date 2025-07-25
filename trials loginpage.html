@@ -42,15 +42,16 @@
     </style>
 </head>
 <body class="font-sans min-h-screen flex flex-col">
- <!-- Top Four-Color Frame -->
+
+    <!-- Top Four-Color Frame -->
     <div class="color-bar">
         <div style="background-color: #facc15;"></div>  <!-- Yellow -->
         <div style="background-color: #22c55e;"></div>  <!-- Green -->
         <div style="background-color: #92400e;"></div>  <!-- Brown -->
         <div style="background-color: #3b82f6;"></div>  <!-- Blue -->
     </div>
-    <!-- Top Division - Header -->
-   <!-- Header -->
+
+    <!-- Header -->
     <header class="bg-white shadow-md">
         <nav class="container mx-auto px-6 py-3 flex items-center justify-between">
             <!-- Left side - Logo Placeholder -->
@@ -70,7 +71,7 @@
             <!-- Right side - Sign Up Button -->
             <div>
                 <a href="signup.html">
-                    <button class="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-6 py-2 rounded-full font-medium transition duration-300">
+                    <button class="border-2 border-green-600 text-green-600 hover:bg-indigo-600 hover:text-white px-6 py-2 rounded-full font-medium transition duration-300">
                         Sign Up
                     </button>
                 </a>
@@ -78,21 +79,21 @@
         </nav>
     </header>
 
-    <!-- Middle Division - Login Form -->
-    <main class="flex-grow gradient-bg flex items-center justify-center p-6">
-        <div class="login-form bg-white bg-opacity-90 p-8 rounded-xl w-full max-w-md">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Login to Your Account</h2>
+    <!-- Login Form Section -->
+    <main class="flex-grow flex items-center justify-center p-6">
+        <div class="green-form p-8 rounded-xl w-full max-w-md">
+            <h2 class="text-3xl font-bold text-center text-black-800 mb-8">Login</h2>
             
             <form id="login-form" method="post" action="login.php">
                 <div class="mb-4">
                     <label for="email" class="block text-gray-700 font-medium mb-2">Email/Username</label>
-                    <input type="email" id="email" name="email" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500 transition" placeholder="Enter your email or username" required>
+                    <input type="email" id="email" name="email" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-green-500 transition" placeholder="Enter your email or username" required>
                 </div>
                 
                 <div class="mb-6">
                     <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
                     <div class="relative">
-                        <input type="password" id="password" name="password" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500 transition" placeholder="Enter your password" required>
+                        <input type="password" id="password" name="password" class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-green-500 transition" placeholder="Enter your password" required>
                         <button type="button" id="togglePassword" class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
                             <i class="far fa-eye"></i>
                         </button>
@@ -105,7 +106,7 @@
                 </button>
                 
                 <div class="text-center">
-                    <a href="forgot.html" id="forgotPassword" class="text-green-600 hover:text-green-800 text-sm font-medium">Forgot Password?</a>
+                    <a href="forgot.html" class="text-gray-700 hover:text-blue-900 text-sm font-medium">Forgot Password?</a>
                 </div>
                 
                 <div id="error-message" class="text-red-500 text-sm mt-4 text-center hidden"></div>
@@ -113,21 +114,24 @@
         </div>
     </main>
 
-    <!-- Lower Division - Footer with Developers -->
-  <footer class="bg-gray-800 text-white py-6">
-    <div class="container mx-auto px-6">
-        <div class="border-t border-gray-700 text-center text-gray-400 text-sm">
-            Developers: Aadil Yahuza Harun | Hajara Larabu | Ocloo M.S. Gakpetor
-            <p>&copy; 2025, All rights reserved.</p>
+    <!-- Footer -->
+      <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+              
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400 text-sm">
+                  Developers: Aadil Yahuza Harun | Hajara Larabu | Ocloo M.S. Gakpetor
+        <p>&copy; 2025, All rights reserved.</p>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
     <script>
         // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
+        document.getElementById('togglePassword').addEventListener('click', function () {
             const passwordField = document.getElementById('password');
             const icon = this.querySelector('i');
-            
+
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
                 icon.classList.remove('fa-eye');
@@ -140,60 +144,50 @@
         });
 
         // Form submission handler
-        document.getElementById('login-form').addEventListener('submit', async function(e) {
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
             e.preventDefault();
-            
+
             const errorMessage = document.getElementById('error-message');
             const loginButton = document.getElementById('loginButton');
             const loginText = document.getElementById('loginText');
             const loadingSpinner = document.getElementById('loadingSpinner');
-            
-            // Show loading state
+
             loginButton.disabled = true;
             loginText.textContent = 'Authenticating...';
             loadingSpinner.style.display = 'block';
             errorMessage.classList.add('hidden');
-            
+
             const form = e.target;
             const formData = new FormData(form);
+
             try {
-                fetch('login.php', {
+                const response = await fetch('login.php', {
                     method: 'POST',
-                    body: formData,
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        if (data.role === 'student') {
-                            window.location.href = 'StudentProfile.html';
-                        } else if (data.role === 'lecturer') {
-                            window.location.href = 'LecturerProfile.html';
-                        }
-                    } else {
-                        const errorMessage = document.getElementById('error-message');
-                        errorMessage.textContent = data.message;
-                        errorMessage.style.display = 'block';
-                    }
-                })
-                .catch(error => {
-                    console.error('Login error:', error);
-                    errorMessage.textContent = 'An error occurred during login. Please try again.';
-                    errorMessage.classList.remove('hidden');
+                    body: formData
                 });
+                const data = await response.json();
+
+                if (data.success) {
+                    if (data.role === 'student') {
+                        window.location.href = 'StudentProfile.html';
+                    } else if (data.role === 'lecturer') {
+                        window.location.href = 'LecturerProfile.html';
+                    } else if (data.role === 'admin') {
+                        window.location.href = 'AdminProfile.html';
+                    }
+                } else {
+                    errorMessage.textContent = data.message;
+                    errorMessage.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'An error occurred during login. Please try again.';
+                errorMessage.classList.remove('hidden');
             } finally {
-                // Reset button state
                 loginButton.disabled = false;
                 loginText.textContent = 'Login';
                 loadingSpinner.style.display = 'none';
             }
-        });
-
-        // You can replace these with actual developer names
-        const developers = ['Aadil', 'Hajara', 'Muhammad'];
-        const devElements = document.querySelectorAll('footer span');
-        
-        devElements.forEach((el, index) => {
-            el.textContent = developers[index];
         });
     </script>
 </body>

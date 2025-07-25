@@ -3,501 +3,490 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Page</title>
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('Student.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('user-type').textContent = 'Student';
-                    document.getElementById('user-name').textContent = data.student.name;
-                    document.getElementById('user-email').textContent = data.student.email;
-                    document.getElementById('user-dob').textContent = data.student.dob;
-                    /*
-                    // Populate all students' results
-                    const allResultsTableBody = document.getElementById('all-results-table-body');
-                    data.all_results.forEach(result => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${result.name}</td>
-                            <td>${result.email}</td>
-                            <td>${result.exam_id}</td>
-                            <td>${result.score}</td>
-                        `;
-                        allResultsTableBody.appendChild(row);
-                    });
-                    */
-                } else {
-                        alert('Failed to load user details.');}
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    </script>
-    <style>
+    <title>Student Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="all.css">
+    <link rel="stylesheet" href="student.css">
+   <style>
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            -webkit-text-size-adjust: 100%; /* Older versions of iOS Safari, Android */
-            text-size-adjust: 100%;
-        }
-
-        header {
-            background-color: #343a40;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        header img {
-            margin-right: 1rem;
-        }
-
-        header .text-center {
-            margin: 0;
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        header h3 {
-            margin: 0;
-        }
-
-        header h5 {
-            margin: 0;
-            font-size: 0.8rem;
-        }
-
-        header p {
-            margin: 0;
-        }
-
-        header button {
-            margin-left: 1rem;
-        }
-
-        footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            width: 100%;
-            margin-top: auto;
-        }
-
-        .container {
-            flex: 1;
-            display: flex;
-            flex-direction: row;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #f8f9fa;
-            padding-top: 20px;
-        }
-
-        .content {
-            flex: 1;
-            padding: 20px;
-        }
-
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        #middle {
-            width: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
-            margin: 0;
-        }
-
-        .chatbox {
-            border: 1px solid #ccc;
-            padding: 10px;
-            height: 400px;
-            overflow-y: scroll;
-        }
-
-        .message {
-            margin-bottom: 10px;
-        }
-
-        .message.student {
-            text-align: right;
-        }
-
-        .message p {
-            margin: 0;
-        }
-
-        .message .time {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        .input-width {
-            width: 50%; /* Decrease width of the input field */
-        }
-
-        .button-width {
-            width: 20%; /* Increase width of the button */
+               background: #fff;
+      
         }
     </style>
-</head>
-
-<body>
-    <header class="text-center">
-        <img src="lg.png" width="5%" alt="Group Logo">
-        <div class="text-center">
-            <h2>UNIVERSITY OF ENERGY AND NATURAL RESOURCES</h2>
-            <h3>ONLINE EXAMINATION MANAGEMENT SYSTEM</h3>
-        </div>
-        <p><a href="Login.html" id="logout"><button class="btn btn-outline-primary">Logout</button></a></p>
+</head> 
+<body class="font-sans min-h-screen flex flex-col">
+    <!-- Four-Color Top Bar -->
+    <div class="w-full h-2 flex">
+        <div class="flex-1 bg-yellow-400"></div>
+        <div class="flex-1 bg-green-600"></div>
+        <div class="flex-1 bg-yellow-900"></div>
+        <div class="flex-1 bg-blue-600"></div>
+    </div>
+    <!-- Header Section -->
+   <header class="bg-white shadow-md border-b border-gray-200">
+        <nav class="container mx-auto px-6 py-3 flex items-center justify-between">
+            <!-- Left side - Logo Placeholder -->
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                    <!-- Place your logo here -->
+                    <img src="lg.png" alt="University Logo" class="rounded-full object-cover w-12 h-12">
+                </div>
+            </div>
+            <!-- right dashboard title -->
+            <div class="flex-1 text-left">
+                <h1 class="text-2xl font-bold text-black-800">STUDENT DASHHBOARD</h1>
+            </div>
+    
+  <button id="logoutBtn" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg flex items-center text-white font-bold">
+    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+</button>
     </header>
 
-    <div class="container" id="middle">
-        <div class="sidebar">
-            <button class="btn btn-link btn-block" onclick="showSection('personal-details')">Personal Details</button>
-            <button class="btn btn-link btn-block" onclick="showSection('Exam-Pass')">Take Exams</button>
-            <button class="btn btn-link btn-block" onclick="showSection('view-results')">View Results</button>
-            <button class="btn btn-link btn-block" onclick="showSection('feedback')">Feedback</button>
+
+    <!-- Main Content Section -->
+    <main class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <div class="w-64 bg-gray-800 text-white p-4">
+            <nav>
+                <ul class="space-y-2">
+                    <li>
+                        <button class="tab-btn active w-full text-left p-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition" data-tab="personal">
+                            <i class="fas fa-user-circle mr-3"></i> Personal Details
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="exams">
+                            <i class="fas fa-pen mr-3"></i> Take Exams
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="results">
+                            <i class="fas fa-chart-bar mr-3"></i> Results
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="feedback">
+                            <i class="fas fa-comments mr-3"></i> Feedback
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
-        <div class="content">
-            <div id="personal-details" class="content-section active">
-                <h2 class="text-center">PERSONAL DETAILS</h2>
-                <div id="details-view">
-                    <p><strong>User Type:</strong> <span id="user-type"></span></p>
-                    <p><strong>Name:</strong> <span id="user-name"></span></p>
-                    <p><strong>Email:</strong> <span id="user-email"></span></p>
-                    <p><strong>Date of Birth:</strong> <span id="user-dob"></span></p>
-                    <button class="btn btn-primary" onclick="editDetails()">Edit</button>
+        <!-- Tab Content Area -->
+        <div class="flex-grow bg-white rounded-lg shadow-md p-6">
+            <!-- Personal Details Tab -->
+            <div id="personal" class="tab-content active">
+                <h2 class="text-2xl font-bold mb-6 text-blue-700 border-b pb-2">Personal Details</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="font-semibold text-gray-700">User Type:</label>
+                        <p class="mt-1" id="userType"> </p>
+                    </div>
+                    <div>
+                        <label class="font-semibold text-gray-700">Name:</label>
+                        <p class="mt-1" id="userName"> </p>
+                    </div>
+                    <div>
+                        <label class="font-semibold text-gray-700">Email:</label>
+                        <p class="mt-1" id="userEmail"> </p>
+                    </div>
+                    <div>
+                        <label class="font-semibold text-gray-700">Date of Birth:</label>
+                        <p class="mt-1" id="userDob"> </p>
+                    </div>
+                    <div>
+                        <label class="font-semibold text-gray-700">ID Number:</label>
+                        <p class="mt-1" id="userId"> </p>
+                    </div>
                 </div>
-                <div id="details-edit" style="display: none;">
-                    <form>
-                        <div class="form-group">
-                            <label for="editStudentName">Name:</label>
-                            <input type="text" class="form-control" id="editStudentName" value="">
+                <button id="editDetailsBtn" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+                    <i class="fas fa-edit mr-2"></i> Edit Details
+                </button>
+            </div>
+
+            <!-- Take Exams Tab -->
+            <div id="exams" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-blue-700 border-b pb-2">Take Exams</h2>
+                <div class="mb-6">
+                    <label for="examIdInput" class="block text-gray-700 mb-2">Enter Exam ID:</label>
+                    <div class="flex">
+                        <input type="text" id="examIdInput" class="border rounded-l-lg p-2 flex-grow" placeholder="e.g. CENG-201">
+                        <button id="startExamBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                            Start Exam
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Exam Content (hidden by default) -->
+                <div id="examContent" class="hidden">
+                    <div class="flex justify-between items-center mb-4 relative">
+                        <h3 class="text-xl font-semibold" id="examTitle">Exam Title</h3>
+                        <div class="timer fixed top-4 right-6 bg-white shadow-lg px-4 py-2 rounded-lg z-50" id="examTimer">00:00</div>
+                    </div>
+                    
+                    <form id="examForm">
+                        <div id="questionsContainer"></div>
+                        
+                        <div class="mt-6 flex justify-end">
+                            <button type="submit" id="submitExamBtn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                                Submit Exam
+                            </button>
                         </div>
-                        <div class="form-group">
-                            <label for="editStudentEmail">Email:</label>
-                            <input type="email" class="form-control" id="editStudentEmail" value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="editStudentDob">Date of Birth:</label>
-                            <input type="date" class="form-control" id="editStudentDob" value="">
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="saveDetails()">Save</button>
-                        <button type="button" class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
                     </form>
                 </div>
             </div>
-            <div id="Exam-Pass" class="content-section">
-                <h2 class="text-center">TAKE EXAMS</h2>
-                    <div class="form-group d-flex mt-3">
-                        <input type="text" id="exam_id" class="form-control input-width" placeholder="Enter Exam ID">
-                        <button type="button" class="btn btn-primary button-width ml-2" onclick="fetchQuestionss()">Start Exams</button>
+
+            <!-- Results Tab -->
+            <div id="results" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-blue-700 border-b pb-2">Exam Results</h2>
+                <div class="mb-6">
+                    <label for="resultExamId" class="block text-gray-700 mb-2">Enter Exam ID to view results:</label>
+                    <div class="flex">
+                        <input type="text" id="resultExamId" class="border rounded-l-lg p-2 flex-grow" placeholder="e.g. HIST101">
+                        <button id="viewResultsBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg">
+                            View Results
+                        </button>
                     </div>
-                <div class="container mt-2" style="max-width:fit-content;"> 
-                    <form id="examForm" method="post" style="display:none; margin-top:5px;">
-                        <input type="hidden" name="exam_id" id="hidden_exam_id">
-                        <div id="questionsContainer"></div>
-                        <button type="button" class="btn btn-success mt-3" onclick="submitExamViaAjax()">Submit Exam</button>
-                    </form>                              
                 </div>
-            </div>
-            <div id="view-results" class="content-section">
-                <h2 class="text-center">VIEW RESULTS</h2>
-                <form id="resultForm">
-                    <div class="form-group d-flex mt-3">
-                        <input type="text" class="form-control input-width" id="exam_idd" name="exam_id" placeholder="Enter Exam ID" required>
-                        <button type="button" class="btn btn-primary button-width ml-2" onclick="fetchResults()">View Result</button>
-                    </div>
-                </form>
                 
-                <div id="resultContainer" class="mt-4">
-                    <!-- Results will be displayed here -->
-                </div>        
-            </div>
-            <div id="feedback" class="content-section">
-                <h2>Feedback</h2>
-                <div id="message_area" class="border p-3 mb-3" style="height: 300px; overflow-y: scroll;">
-                    <!-- Messages will be populated here -->
-                </div>
-                <form id="feedback_form">
-                    <div class="form-group">
-                        <textarea id="message_input" class="form-control" rows="3" placeholder="Enter your message"></textarea>
+                <div id="resultsTableContainer" class="hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-3 px-4 text-left">Student Name</th>
+                                    <th class="py-3 px-4 text-left">Student Id</th>
+                                    <th class="py-3 px-4 text-left">Exam ID</th>
+                                    <th class="py-3 px-4 text-left">Result No.</th>
+                                    <th class="py-3 px-4 text-left">Result</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTableBody">
+                                <!-- Results will be populated here -->
+                            </tbody>
+                        </table>
                     </div>
-                    <button type="submit" class="btn btn-primary">Send</button>
-                </form>
+                </div>
+            </div>
+
+            <!-- Feedback Tab -->
+            <div id="feedback" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-blue-700 border-b pb-2">Feedback & Support</h2>
+                <div class="flex h-96">
+                    <!-- Admin List -->
+                    <div class="w-1/3 border-r pr-4 overflow-y-auto">
+                        <h3 class="font-semibold mb-4">Administrators</h3>
+                        <div id="adminList" class="space-y-2 max-h-96 overflow-y-auto">
+                            <!-- Admin buttons will be dynamically inserted here via JS -->
+                        </div>
+                    </div>
+                    <!-- Conversation Area -->
+                    <div class="w-2/3 pl-4 flex flex-col">
+                        <div id="conversation" class="flex-grow overflow-y-auto mb-4 p-2 border rounded-lg">
+                            <p class="text-gray-500 text-center py-10">Select an administrator to view conversation</p>
+                        </div>
+                        <!-- Message Input -->
+                        <div class="flex">
+                            <textarea type="text" id="messageInput" class="border rounded-l-lg p-2 flex-grow" placeholder="Type your message..."></textarea>
+                            <button type="submit" id="sendMessageBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+<footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto px-6">
+        <div class="border-t border-gray-700 text-center text-gray-400 text-sm">
+            Developers: Aadil Yahuza Harun | Hajara Larabu | Ocloo M.S. Gakpetor
+            <p>&copy; 2025, All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- Edit Details Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Edit Personal Details</h3>
+                <button id="closeModal" class="text-red-700 hover:text-gray-700">&times;</button>
+            </div>
+            <form id="editForm" class="space-y-4">
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Name:</label>
+                    <input type="text" id="editName" class="w-full border rounded-lg p-2" required>
+                </div>
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Email:</label>
+                    <input type="email" id="editEmail" class="w-full border rounded-lg p-2" required>
+                </div>
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Date of Birth:</label>
+                    <input type="date" id="editDob" class="w-full border rounded-lg p-2" required>
+                </div>
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" id="cancelEdit" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                        <i class="fas fa-save mr-2"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Exam Instructions Modal -->
+    <div id="instructionsModal" class="modal">
+        <div class="modal-content">
+            <div class="mb-4">
+                <h3 class="text-xl font-bold mb-2">Exam Instructions</h3>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                    <p class="text-yellow-700"><strong>Important:</strong> Please read these instructions carefully before starting the exam.</p>
+                </div>
+            </div>
+            <div class="space-y-3 mb-6">
+                <P>0. You have only three attempts at this exam, afterwhich you will be denied access to take it again.</P>
+                <p>1. This exam consists of multiple-choice questions.</p>
+                <p>2. You have <span id="totalTimeDisplay">30 seconds</span> to complete the exam.</p>
+                <p>3. Each question must be answered within the allocated time.</p>
+                <p>4. Only one answer can be selected for each question.</p>
+                <p>5. The exam will automatically submit when time expires.</p>
+                <p>6. If you close or switch tabs, the exam will be submitted automatically.</p>
+                <p>7. Don't try to refresh, mininize or restore the window while exam is in session.</p>
+                <p>8. Unanswered questions will be marked as incorrect.</p>
+                <p style="font: bold; color: red" >All the best....</p>
+            </div>
+            <div class="flex justify-end">
+                <button id="beginExamBtn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                    Begin Exam
+                </button>
             </div>
         </div>
     </div>
 
-    <footer class="text-center">
-        Developers: Ayisi Emmanuel | Sofaraa Agyei Joseph | Akandi Raphael
-        <p>&copy; 2024, All rights reserved.</p>
-    </footer>
+    <!-- Result Display Modal -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <div class="text-center">
+                <h3 class="text-2xl font-bold mb-2">Exam Result</h3>
+                <div class="text-4xl font-bold mb-4" id="resultScore">5/10</div>
+                <p class="text-gray-600 mb-6">Your exam has been submitted successfully.</p>
+                <button id="closeResultModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="all.js"></script>
+    <script src="student.js"></script>
     <script>
-        $(document).ready(function() {
-            function loadMessages() {
+        $(document).ready(function () {
+            let selectedAdmin = null;
+            let pollingConversation = null;
+            let pollingAdminList = null;
+
+            // Load Admins
+            function loadAdmins(scrollToSelected = false) {
                 $.ajax({
-                    url: 'fetch_messages.php',
+                    url: 'fetch_student_admins.php',
+                    method: 'GET',
+                    success: function (data) {
+                        if (data.error) {
+                            alert("Error: " + data.error);
+                            return;
+                        }
+
+                        const adminList = $('#adminList').empty();
+                        data = JSON.parse(data);
+                        
+                        data.forEach(admin => {
+                            
+                            // Check if this admin is the selected one by comparing IDs
+                            const isSelected = selectedAdmin && (admin.id === selectedAdmin.id);
+                            // Show dot only if admin has unread AND is NOT the selected admin
+                            const showDot = admin.has_unread && !isSelected;
+                            const dot = showDot ? '<span class="inline-block w-2 h-2 bg-red-500 rounded-full ml-2"></span>' : '';
+
+                            const adminItem = $(`
+                                <div class="cursor-pointer hover:bg-gray-100 p-2 rounded admin-item" data-id="${admin.id}">
+                                    ${admin.name} ${dot}
+                                </div>
+                            `);
+                            adminList.append(adminItem);
+                        });
+                        if (scrollToSelected && selectedAdmin) {
+                            $(`.admin-item[data-id="${selectedAdmin.id}"]`).addClass('bg-gray-200');
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("Failed to load admins: " + xhr.responseText);
+                    }
+                });
+            }
+            function startAdminPolling() {
+                if (pollingAdminList) clearInterval(pollingAdminList);
+                pollingAdminList = setInterval(() => {
+                    loadAdmins(true); // true keeps the selected admin visible/highlighted
+                }, 5000);
+            }
+
+            function startConversationPolling(adminId) {
+                if (pollingConversation) clearInterval(pollingConversation);
+                pollingConversation = setInterval(() => {
+                    if (selectedAdmin) {
+                        loadConversation(adminId, true);
+                        markAsRead(adminId);
+                    }
+                }, 5000);
+            }
+
+            // Load conversation
+            function loadConversation(adminId, scroll = true) {
+                $.ajax({
+                    url: 'fetch_conversation_student.php',
                     method: 'POST',
-                    data: { receiver_role: 'administrator' },
-                    success: function(response) {
-                        $('#message_area').html(response);
+                    data: { admin_id: adminId },
+                    success: function (data) {
+                        if (data.error) {
+                            alert("Error: " + data.error);
+                            return;
+                        }
+
+                        data = JSON.parse(data);
+                        const chatBox = $('#conversation').empty();
+                        if (data.length === 0) {
+                            chatBox.html('<p class="text-gray-500 italic">No messages yet</p>');
+                            return;
+                        }
+
+                        data.forEach(msg => {
+                            const align = msg.sender_type === 'student' ? 'text-right' : 'text-left';
+                            const bg = msg.sender_type === 'student' ? 'bg-blue-100' : 'bg-green-100';
+                            const bubble = `<div class="${align} mb-2"><span class="inline-block ${bg} px-3 py-2 rounded-lg">${msg.message}</span></div>`;
+                            chatBox.append(bubble);
+                        });
+
+                        if (scroll) {
+                            chatBox.scrollTop(chatBox[0].scrollHeight);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("Failed to load conversation: " + xhr.responseText);
                     }
                 });
             }
 
-            $('#feedback_form').submit(function(e) {
-                e.preventDefault();
-                const message = $('#message_input').val();
-                if (message) {
-                    $.ajax({
-                        url: 'send_message.php',
-                        method: 'POST',
-                        data: { message: message, receiver_role: 'administrator' },
-                        success: function(response) {
-                            $('#message_input').val('');
-                            loadMessages();
+            // Mark as read
+            function markAsRead(adminId) {
+                $.ajax({
+                    url: 'mark_as_read_student.php',
+                    method: 'POST',
+                    data: { admin_id: adminId },
+                    error: function (xhr) {
+                        alert("Failed to mark messages as read: " + xhr.responseText);
+                    }
+                });
+            }
+
+            // Send message
+            $('#sendMessageBtn').on('click', function () {
+                if (!selectedAdmin) {
+                    alert("Select an administrator first.");
+                    return;
+                }
+
+                const message = $('#messageInput').val().trim();
+                if (message === '') {
+                    alert("Message cannot be empty.");
+                    return;
+                }
+
+                $.ajax({
+                    url: 'send_message_student.php',
+                    method: 'POST',
+                    data: {
+                        admin_id: selectedAdmin.id,
+                        message: message
+                    },
+                    success: function (data) {
+                        if (data.error) {
+                            alert("Error: " + data.error);
+                            return;
                         }
-                    });
-                }
-            });
 
-            loadMessages(); // Load messages when page loads
-        });
-    </script>
-    <script>
-        function showSection(sectionId) {
-            var sections = document.getElementsByClassName('content-section');
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].classList.remove('active');
-            }
-            document.getElementById(sectionId).classList.add('active');
-        }
-
-        function editDetails() {
-            document.getElementById('details-view').style.display = 'none';
-            document.getElementById('details-edit').style.display = 'block';
-
-            document.getElementById('editStudentName').value = document.getElementById('user-name').innerText;
-            document.getElementById('editStudentEmail').value = document.getElementById('user-email').innerText;
-            document.getElementById('editStudentDob').value = document.getElementById('user-dob').innerText;
-        }
-
-        function saveDetails() {
-            var name = document.getElementById('editStudentName').value;
-            var email = document.getElementById('editStudentEmail').value;
-            var dob = document.getElementById('editStudentDob').value;
-        
-            // AJAX request to update details in the database
-            fetch('updateStudentdetails.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    dob: dob
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update the UI with the new details
-                    document.getElementById('user-name').innerText = name;
-                    document.getElementById('user-email').innerText = email;
-                    document.getElementById('user-dob').innerText = dob;
-                    cancelEdit();
-                    alert('Details updated successfully');
-                } else {
-                    alert('Failed to update details');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        function cancelEdit() {
-            document.getElementById('details-view').style.display = 'block';
-            document.getElementById('details-edit').style.display = 'none';
-        }
-
-        let examTimer;
-        let isSubmitted = false;
-        function fetchQuestionss() {
-            const exam_id = document.getElementById('exam_id').value;
-            if (exam_id) {
-                document.getElementById('hidden_exam_id').value = exam_id; // Set exam_id in hidden input
-                fetch(`fetch_questionss.php?exam_id=${exam_id}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.length > 0) {
-                        document.getElementById('examForm').style.display = 'block';
-                        const questionsContainer = document.getElementById('questionsContainer');
-                        questionsContainer.innerHTML = '';
-                        //create the questions and set the timer based on the number of questions
-                        data.forEach((question, index) => {
-                            let questionHtml = `
-                                <div class="card mt-3 question" data-question-id="${question.id}">
-                                    <div class="card-body">
-                                        <h5>${index + 1}. ${question.question}</h5>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer_${question.id}" value="A">
-                                            <label class="form-check-label">${question.option_a}</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer_${question.id}" value="B">
-                                            <label class="form-check-label">${question.option_b}</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer_${question.id}" value="C">
-                                            <label class="form-check-label">${question.option_c}</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer_${question.id}" value="D">
-                                            <label class="form-check-label">${question.option_d}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                            questionsContainer.innerHTML += questionHtml;
-                        });
-
-                        //start the timer (10 seconds per question)
-                        const examDuration = data.length * 10; // Total seconds
-                        startExamTimer(examDuration);
-    
-                        // Event listener for closing or minimizing the window
-                        window.onblur = submitExamViaAjax;
-    
-                    } else {
-                        alert('No questions found for this Exam ID.');
+                        $('#messageInput').val('');
+                        loadConversation(selectedAdmin.id);
+                        loadAdmins(true); // also refresh admin list after sending
+                    },
+                    error: function (xhr) {
+                        alert("Failed to send message: " + xhr.responseText);
                     }
-                })
-                .catch(error => console.error('Error fetching questions:', error));
-            } else {
-                alert('Please enter an Exam ID.');
-            }
-        }
-
-        // Timer function
-        function startExamTimer(duration) {
-            let timeRemaining = duration;
-            const timerDisplay = document.createElement('p');
-            timerDisplay.setAttribute('id', 'timerDisplay');
-            document.getElementById('examForm').appendChild(timerDisplay);
-
-            examTimer = setInterval(() => {
-                timeRemaining--;
-                timerDisplay.textContent = `Time remaining: ${Math.floor(timeRemaining / 10)}m ${timeRemaining % 10}s`;
-
-                if (timeRemaining <= 0) {
-                    clearInterval(examTimer);
-                    submitExamViaAjax(); // Submit exam when time is up
-                }
-            }, 1000);
-        }
-
-        function submitExamViaAjax() {
-            // Check if exam has already been submitted
-            if (isSubmitted) return;
-
-            isSubmitted = true; // Mark as submitted
-
-            const formData = new FormData(document.getElementById('examForm'));
-        
-            // Submit form using fetch API (AJAX)
-            fetch('submit_exam.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                // Display a submission success message
-                alert('Exam submitted successfully!');
-        
-                // Reset the form after successful submission
-                resetExamForm();
-            })
-            .catch(error => {
-                console.error('Error submitting exam:', error);
-                alert('There was an issue submitting the exam. Please try again.');
+                });
             });
-        }
-        /*
-        // Function to submit exam automatically
-        function autoSubmitExam() {
-            // Stop the timer
-            clearInterval(examTimer);
 
-            // Submit the form
-            document.getElementById('examForm').submitExamViaAjax();
+           // Handle admin click
+            $('#adminList').on('click', '.admin-item', function () {
+                const adminId = $(this).data('id');
+                selectedAdmin = { id: adminId };
 
-            // Show submission message and reset
-            alert('Exam submitted successfully.');
-            resetExamForm();
-        }
-        */
-        // Reset the exam form after submission
-        function resetExamForm() {
-            document.getElementById('examForm').reset();
-            document.getElementById('examForm').style.display = 'none';
-            document.getElementById('questionsContainer').innerHTML = '';
-            document.getElementById('exam_id').value = ''; // Clear the exam ID input
-            const timerDisplay = document.getElementById('timerDisplay');
-            if (timerDisplay) {
-                timerDisplay.remove(); // Remove the timer display
-            }
-        }
+                // Remove highlight from all
+                $('.admin-item').removeClass('bg-blue-100 font-semibold text-blue-800');
 
-        // Event listener for form submission
-        document.getElementById('examForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            submitExamViaAjax();
+                // Add highlight to selected
+                $(this).addClass('bg-blue-100 font-semibold text-blue-800');
+
+                loadConversation(adminId);
+                markAsRead(adminId);
+                // Remove notification dot (if any)
+                $(this).find('span').remove();
+                $(this).addClass('bg-gray-200');
+
+                startConversationPolling(adminId);
+            });
+
+            loadAdmins();
+            startAdminPolling();
         });
 
+        //Populate User Details    
+        fetch('student.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('userType').textContent = 'Student';
+                document.getElementById('userName').textContent = data.student.name;
+                document.getElementById('userEmail').textContent = data.student.email;
+                document.getElementById('userDob').textContent = data.student.dob;
+                document.getElementById('userId').textContent = data.student.id_num;
+            } else {
+                    alert('Failed to load user details.');}
+        })
+        .catch(error => console.error('Error:', error));
 
-        function fetchResults() {
-            const exam_id = document.getElementById('exam_idd').value;
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Clear session or any authentication tokens
+            sessionStorage.removeItem('studentLoggedIn');
             
-            if (exam_id) {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'fetch_results.php', true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        document.getElementById('resultContainer').innerHTML = xhr.responseText;
-                    }
-                };
-                
-                xhr.send('exam_id=' + exam_id);
-            } else {
-                alert('Please enter an Exam ID.');
-            }
-        }
+            // Redirect to login page
+            window.location.href = 'login.html';
+            
+            // Prevent back button navigation
+            window.history.pushState(null, null, 'login.html');
+            window.onpopstate = function() {
+                window.history.pushState(null, null, 'login.html');
+            };
+        });
+
     </script>
 </body>
 </html>

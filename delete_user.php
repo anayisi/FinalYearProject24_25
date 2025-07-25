@@ -1,36 +1,38 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "project";
+$data = json_decode(file_get_contents('php://input'), true);
+$type = $data['type'];
+$id = $data['id'];
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
+$conn = new mysqli('localhost', 'root', '', 'project');
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    echo json_encode(['success' => false]);
+    exit;
 }
 
-// Get the ID and type from the URL
-$id = $_GET['id'];
-$type = $_GET['type'];
+$table = '';
+$key = '';
 
-// Delete based on type (student or lecturer)
-if ($type === 'student') {
-    $sql = "DELETE FROM students WHERE id='$id'";
-} elseif ($type === 'lecturer') {
-    $sql = "DELETE FROM lecturers WHERE id='$id'";
+switch ($type) {
+    case 'administrator':
+        $table = 'administrators';
+        $key = 'admin_id';
+        break;
+    case 'lecturer':
+        $table = 'lecturers';
+        $key = 'lecturer_id';
+        break;
+    case 'student':
+        $table = 'students';
+        $key = 'student_id';
+        break;
+    default:
+        echo json_encode(['success' => false]);
+        exit;
 }
 
-if ($conn->query($sql) === TRUE) {
-    echo "Record deleted successfully";
-} else {
-    echo "Error deleting record: " . $conn->error;
-}
+$stmt = $conn->prepare("DELETE FROM $table WHERE $key = ?");
+$stmt->bind_param('i', $id);
+$success = $stmt->execute();
 
-$conn->close();
-
-// Redirect back to admin page
-header("Location: AdminProfile.html");
+echo json_encode(['success' => $success]);
 ?>

@@ -3,603 +3,592 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
-    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('Admin.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('user-type').textContent = 'Administrator';
-                    document.getElementById('user-name').textContent = data.administrator.name;
-                    document.getElementById('user-email').textContent = data.administrator.email;
-                    document.getElementById('user-dob').textContent = data.administrator.dob;
-                    
-                    // Populate all students' results
-                    const allResultsTableBody = document.getElementById('all-results-table-body');
-                    data.all_results.forEach(result => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${result.name}</td>
-                            <td>${result.email}</td>
-                            <td>${result.exam_id}</td>
-                            <td>${result.score}</td>
-                        `;
-                        allResultsTableBody.appendChild(row);
-                    });
-                } else {
-                        alert('Failed to load user details.');}
-            })
-            .catch(error => console.error('Error:', error));
-        });
-        // Function to fetch questions
-        function fetchQuestions() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "fetch_questions.php", true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById("questionTable").innerHTML = xhr.responseText;
-                }
-            };
-            xhr.send();
-        }
-
-        // Call fetchQuestions on page load
-        window.onload = fetchQuestions;
-
-        function removeQuestion(button) {
-            var row = button.parentElement.parentElement;
-            var questionId = row.cells[0].innerHTML;
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "delete_question.php", true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    fetchQuestions();
-                }
-            };
-            xhr.send("id=" + questionId);
-        }
-/*
-        function editQuestion(button) {
-            var row = button.parentElement.parentElement;
-            var questionId = row.cells[0].innerHTML;
-            var questionText = row.cells[1].innerHTML;
-            var newQuestionText = prompt("Edit Question:", questionText);
-            if (newQuestionText !== null) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "edit_question.php", true);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        fetchQuestions();
-                    }
-                };
-                xhr.send("id=" + questionId + "&question=" + encodeURIComponent(newQuestionText));
-            }
-        }
-*/            
-    </script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: #343a40;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        header img {
-            margin-right: 1rem;
-        }
-
-        header .text-center {
-            margin: 0;
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        header h3 {
-            margin: 0;
-        }
-
-        header h5 {
-            margin: 0;
-            font-size: 0.8rem;
-        }
-
-        header p {
-            margin: 0;
-        }
-
-        header button {
-            margin-left: 1rem;
-        }
-
-        footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            width: 100%;
-            margin-top: auto;
-        }
-
-        .container {
-            flex: 1;
-            display: flex;
-            flex-direction: row;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #f8f9fa;
-            padding-top: 20px;
-        }
-
-        .content {
-            flex: 1;
-            padding: 20px;
-        }
-
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        #middle {
-            width: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
-            margin: 0;
-        }
-
-        .chatbox {
-            border: 1px solid #ccc;
-            padding: 10px;
-            height: 400px;
-            overflow-y: scroll;
-        }
-
-        .message {
-            margin-bottom: 10px;
-        }
-
-        .message.admin {
-            text-align: right;
-        }
-
-        .message p {
-            margin: 0;
-        }
-
-        .message .time {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        .input-width {
-            width: 50%; /* Decrease width of the input field */
-        }
-
-        .button-width {
-            width: 20%; /* Increase width of the button */
-        }
-    </style>
+    <title>Admin Dashboard - Online Examination Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="all.css">
 </head>
-
-<body>
-    <header class="text-center">
-        <img src="lg.png" width="5%" alt="Group Logo">
-        <div class="text-center">
-            <h2>UNIVERSITY OF ENERGY AND NATURAL RESOURCES</h2>
-            <h3>ONLINE EXAMINATION MANAGEMENT SYSTEM</h3>
-        </div>
-        <p><a href="Login.html" id="logout"><button class="btn btn-outline-primary">Logout</button></a></p>
-    </header>
-
-    <div class="container" id="middle">
-        <div class="sidebar">
-            <button class="btn btn-link btn-block" onclick="showSection('personal-details')">Personal Details</button>
-            <button class="btn btn-link btn-block" onclick="showSection('mount-unmount')">Mount/Unmount Questions</button>
-            <button class="btn btn-link btn-block" onclick="showSection('view-results')">View Results</button>
-            <button class="btn btn-link btn-block" onclick="showSection('backup-data')">Backup Data</button>
-            <button class="btn btn-link btn-block" onclick="showSection('admin-approval')">Admin Approval</button>
-            <button class="btn btn-link btn-block" onclick="showSection('feedback')">Feedback</button>
-        </div>
-
-        <div class="content">
-            <div id="personal-details" class="content-section active">
-                <h2 class="text-center">PERSONAL DETAILS</h2>
-                <div id="details-view">
-                    <p><strong>User Type:</strong> <span id="user-type"></span></p>
-                    <p><strong>Name:</strong> <span id="user-name"></span></p>
-                    <p><strong>Email:</strong> <span id="user-email"></span></p>
-                    <p><strong>Date of Birth:</strong> <span id="user-dob"></span></p>
-                    <button class="btn btn-primary" onclick="editDetails()">Edit</button>
-                </div>
-                <div id="details-edit" style="display: none;">
-                    <form>
-                        <div class="form-group">
-                            <label for="editAdminName">Name:</label>
-                            <input type="text" class="form-control" id="editAdminName" value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="editAdminEmail">Email:</label>
-                            <input type="email" class="form-control" id="editAdminEmail" value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="editAdminDob">Date of Birth:</label>
-                            <input type="date" class="form-control" id="editAdminDob" value="">
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="saveDetails()">Save</button>
-                        <button type="button" class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
-                    </form>
-                </div>
-            </div>
-
-            <div id="mount-unmount" class="content-section">
-                <h2 class="text-center">MOUNT/UNMOUNT QUESTIONS</h2>
-                <div class="mt-4">
-                    <h5>Upload New Questions</h5>
-                    <form action="upload.php" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="exam_id">Exam ID:</label>
-                            <input type="text" class="form-control" id="exam_id" name="exam_id" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="questionFile">Select File:</label>
-                            <input type="file" class="form-control-file" id="questionFile" name="questionFile" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Upload</button>
-                    </form>                    
-                </div>
-                <div class="mt-4">
-                    <h5>Manage Questions</h5>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Q. ID</th>
-                                <th>Question</th>
-                                <th>Option A</th>
-                                <th>Option B</th>
-                                <th>Option C</th>
-                                <th>Option D</th>
-                                <th>Answer</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="questionTable">
-                            <!-- Dynamic content will be inserted here by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="view-results" class="content-section">
-                <h2 class="text-center">VIEW RESULTS</h2>
-                <form id="resultForm">
-                    <div class="form-group d-flex mt-3">
-                        <input type="text" class="form-control input-width" id="exam_idd" name="exam_id" placeholder="Enter Exam ID" required>
-                        <button type="button" class="btn btn-primary button-width ml-2" onclick="fetchResults()">View Result</button>
-                    </div>
-                </form>
-                
-                <div id="resultContainer" class="mt-4">
-                    <!-- Results will be displayed here -->
-                </div>
-            </div>
-
-            <div id="backup-data" class="content-section">
-                <h2>Backup Data</h2>
-                <button class="btn btn-primary">Backup to Google Drive</button>
-                <button class="btn btn-primary">Backup to OneDrive</button>
-            </div>
-
-            <div id="admin-approval" class="content-section">
-                <div class="container">
-                    <div class="mt-4">
-                        <h5>Students List</h5>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>name</th>
-                                    <th>dob</th>
-                                    <th>department</th>
-                                    <th>id</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="studentApprovalTable">
-                                <!-- Rows will be dynamically inserted here by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="mt-4">
-                        <h5>Lecturers List</h5>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>name</th>
-                                    <th>dob</th>
-                                    <th>department</th>
-                                    <th>id</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="lecturerApprovalTable">
-                                <!-- Rows will be dynamically inserted here by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="feedback" class="content-section">
-                <h2 class="text-center">FEEDBACK</h2>
-                <div class="row">
-                    <div class="col-md-3">
-                        <h4>Users</h4>
-                        <ul id="user_list" class="list-group">
-                            <!-- User names will be populated here -->
-                        </ul>
-                    </div>
-                    <div class="col-md-9">
-                        <h4>Conversation</h4>
-                        <div id="message_area" class="border p-3 mb-3" style="height: 300px; overflow-y: scroll;">
-                            <!-- Messages will be populated here -->
-                        </div>
-                        <form id="feedback_form">
-                            <div class="form-group">
-                                <textarea id="message_input" class="form-control" rows="3" placeholder="Enter your message"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Send</button>
-                        </form>
-                        <button id="back_button" class="btn btn-secondary mt-3">Back</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body class="font-sans bg-gray-50">
+    <!-- Four-Color Top Bar -->
+    <div class="w-full h-2 flex">
+        <div class="flex-1 bg-yellow-400"></div>
+        <div class="flex-1 bg-green-600"></div>
+        <div class="flex-1 bg-yellow-900"></div>
+        <div class="flex-1 bg-blue-600"></div>
     </div>
 
-    <footer class="text-center">
-        Developers: Ayisi Emmanuel | Sofaraa Agyei Joseph | Akandi Raphael
-        <p>&copy; 2024, All rights reserved.</p>
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Header Section -->
+    <header class="bg-white shadow-md">
+        <nav class="container mx-auto px-6 py-3 flex items-center justify-between">
+            <!-- Left side - Logo Placeholder -->
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                    <!-- Place your logo here -->
+                    <img src="lg.png" alt="University Logo" class="rounded-full object-cover w-12 h-12">
+                </div>
+            </div>
+            <!-- right dashboard title -->
+            <div class="flex-1 text-left">
+                <h1 class="text-2xl font-bold text-black-800">ADMIN DASHHBOARD</h1>
+            </div>
+    
+       <button id="logoutBtn" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg flex items-center text-white font-bold">
+    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+</button>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <div class="w-64 bg-gray-800 text-white p-4">
+            <nav>
+                <ul class="space-y-2">
+                    <li>
+                        <button class="tab-btn active w-full text-left p-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition" data-tab="personal">
+                            <i class="fas fa-user mr-2"></i> Personal Details
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="generate">
+                            <i class="fas fa-id-card mr-2"></i> Generate IDs
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="members">
+                            <i class="fas fa-users mr-2"></i> Members
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="feedback">
+                            <i class="fas fa-comments mr-2"></i> Feedback
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-btn w-full text-left p-3 rounded-lg hover:bg-gray-700 transition" data-tab="backup">
+                            <i class="fas fa-database mr-2"></i> Backup Data
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Tab Content Area -->
+        <div class="flex-1 p-8">
+            <!-- Personal Details Tab -->
+            <div id="personal" class="tab-content active">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Personal Details</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md max-w-lg">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="font-semibold text-gray-700">User Type:</label>
+                            <p class="mt-1" id="userType"> </p>
+                        </div>
+                        <div>
+                            <label class="font-semibold text-gray-700">Name:</label>
+                            <p class="mt-1" id="userName"> </p>
+                        </div>
+                        <div>
+                            <label class="font-semibold text-gray-700">Email:</label>
+                            <p class="mt-1" id="userEmail"> </p>
+                        </div>
+                        <div>
+                            <label class="font-semibold text-gray-700">Date of Birth:</label>
+                            <p class="mt-1" id="userDob"> </p>
+                        </div>
+                        <div>
+                            <label class="font-semibold text-gray-700">ID Number:</label>
+                            <p class="mt-1" id="userId"> </p>
+                        </div>
+                    </div>
+                    <button id="editDetailsBtn" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                        <i class="fas fa-edit mr-2"></i> Edit Details
+                    </button>
+                </div>
+            </div>
+
+            <!-- Generate IDs Tab -->
+            <div id="generate" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Generate IDs</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <!--SYSTEM GENERATED IDs-->
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700">System Generated IDs</h3>
+                    <div class="mb-6">
+                        <div class="flex items-center space-x-4">
+                            <select id="idType" class="border rounded-lg p-2 flex-1">
+                                <option value="student">Student ID</option>
+                                <option value="lecturer">Lecturer ID</option>
+                                <option value="admin">Administrator ID</option>
+                            </select>
+                            <button id="generateIdBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                                <i class="fas fa-plus-circle mr-2"></i> Generate
+                            </button>
+                        </div>
+                    </div>
+                    <!--INDEX NUMBERS INSERTIONS-->
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700">Index Numbers</h3>
+                    <div class="mb-6">
+                        <div class="flex items-center space-x-4">
+                            <select id="indexType" class="border rounded-lg p-2 flex-1">
+                                <option value="student">Student Index Numbers</option>
+                                <option value="lecturer">Lecturer Staff Ids</option>
+                                <option value="admin">Administrator Staff Ids</option>
+                            </select>
+                            <textarea type="text" id="indexNumber" placeholder="Enter Id Number / You can enter multiple Ids by using the enter key to separate each id..." rows="5" class="border rounded-lg p-2 flex-1 resize-none"></textarea>
+                            <button id="addIndexBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                                <i class="fas fa-plus-circle mr-2"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border rounded-lg">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Student IDs</th>
+                                    <th class="py-2 px-4 border-b">Lecturer IDs</th>
+                                    <th class="py-2 px-4 border-b">Administrator IDs</th>
+                                    <!-- <th class="py-2 px-4 border-b">Actions</th>-->
+                                </tr>
+                            </thead>
+                            <tbody id="idTableBody">
+                                <!-- Sample data - will be populated from database -->
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members Tab -->
+            <div id="members" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Members</h2>
+                
+                <!-- Administrators Table -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700">Administrators</h3>
+                    <div class="bg-white p-4 rounded-lg shadow-md overflow-x-auto">
+                        <table class="min-w-full border rounded-lg">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Name</th>
+                                    <th class="py-2 px-4 border-b">Email</th>
+                                    <th class="py-2 px-4 border-b">ID</th>
+                                    <th class="py-2 px-4 border-b">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminTableBody">
+                                <!-- Sample data - will be populated from database -->
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Lecturers Table -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700">Lecturers</h3>
+                    <div class="bg-white p-4 rounded-lg shadow-md overflow-x-auto">
+                        <table class="min-w-full border rounded-lg">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Name</th>
+                                    <th class="py-2 px-4 border-b">Email</th>
+                                    <th class="py-2 px-4 border-b">School</th>
+                                    <th class="py-2 px-4 border-b">ID</th>
+                                    <th class="py-2 px-4 border-b">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lecturerTableBody">
+                                <!-- Sample data - will be populated from database -->
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Students Table -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700">Students</h3>
+                    <div class="bg-white p-4 rounded-lg shadow-md overflow-x-auto">
+                        <table class="min-w-full border rounded-lg">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Name</th>
+                                    <th class="py-2 px-4 border-b">Level</th>
+                                    <th class="py-2 px-4 border-b">Program</th>
+                                    <th class="py-2 px-4 border-b">ID</th>
+                                    <th class="py-2 px-4 border-b">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentTableBody">
+                                <!-- Sample data - will be populated from database -->
+    
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Tab -->
+            <div id="feedback" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Feedback</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex">
+                        <!-- User List -->
+                        <div class="w-1/3 pr-4 border-r">
+                            <h3 class="text-lg font-semibold mb-4">Users</h3>
+                            <div class="space-y-2 max-h-96 overflow-y-auto" id="userList">
+                                <!-- Populated via JS -->
+                            </div>
+                        </div>
+
+                        <!-- Conversation -->
+                        <div class="flex-1 pl-4">
+                            <h3 class="text-lg font-semibold mb-4">Conversation</h3>
+                            <div id="conversation" class="chat-message mb-4 p-4 bg-gray-50 rounded-lg h-64 overflow-y-auto">
+                                <p class="text-gray-500 italic">Select a user to view conversation</p>
+                            </div>
+
+                            <!-- Message Input -->
+                            <div class="flex items-center">
+                                <textarea id="messageInput" placeholder="Type your message..." rows="3" class="flex-1 border rounded-l-lg p-2"></textarea>
+                                <button type="submit" id="sendMessageBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg">
+                                    <i class="fas fa-paper-plane"></i> Send
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backup Data Tab -->
+            <div id="backup" class="tab-content">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Backup Data</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md max-w-lg">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block font-semibold text-gray-700 mb-2">Select Data to Backup:</label>
+                            <select id="backupType" class="w-full border rounded-lg p-2">
+                                <option value="lecturers">Lecturer's Data</option>
+                                <option value="students">Student's Data</option>
+                                <option value="admins">Administrators Data</option>
+                                <option value="questions">Questions</option>
+                                <option value="chats">Chats</option>
+                            </select>
+                        </div>
+                        <button id="backupBtn" class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-cloud-upload-alt mr-2"></i> Upload to Google Drive
+                        </button>
+                        <div id="backupStatus" class="hidden p-3 bg-blue-100 text-blue-800 rounded-lg">
+                            Backup in progress...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto px-6">
+        <div class="border-t border-gray-700 text-center text-gray-400 text-sm">
+            Developers: Aadil Yahuza Harun | Hajara Larabu | Ocloo M.S. Gakpetor
+            <p>&copy; 2025, All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- Edit Details Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Edit Personal Details</h3>
+                <button id="closeModal" class="text-red-700 hover:text-gray-700">&times;</button>
+            </div>
+            <form id="editForm" class="space-y-4">
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Name:</label>
+                    <input type="text" id="editName" class="w-full border rounded-lg p-2" required>
+                </div>
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Email:</label>
+                    <input type="email" id="editEmail" class="w-full border rounded-lg p-2" required>
+                </div>
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Date of Birth:</label>
+                    <input type="date" id="editDob" class="w-full border rounded-lg p-2" required>
+                </div>
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" id="cancelEdit" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                        <i class="fas fa-save mr-2"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="admin.js"></script>
+    <script src="all.js"></script>
     <script>
-        let currentUser = null;
+        $(document).ready(function () {
+            let selectedUser = null;
+            let pollingConversation = null;
+            let pollingUserList = null;
 
-        function loadUsers() {
-            $.ajax({
-                url: 'fetch_users.php',
-                method: 'POST',
-                success: function(response) {
-                    $('#user_list').html(response);
-                }
-            });
-        }
-
-        function loadMessages() {
-            if (currentUser) {
+            // Load user list
+            function loadUsers(scrollToSelected = false) {
                 $.ajax({
-                    url: 'fetch_messages.php',
-                    method: 'POST',
-                    data: { id: currentUser },
-                    success: function(response) {
-                        $('#message_area').html(response);
+                    url: 'fetch_users.php',
+                    method: 'GET',
+                    success: function (data) {
+                        if (data.error) {
+                            alert("Error: " + data.error);
+                            return;
+                        }
+
+                        const userList = $('#userList').empty();
+                        data.forEach(user => {
+
+                            // Check if this user is the selected one by comparing IDs
+                            const isSelected = selectedUser && (user.id === selectedUser.id);
+                            // Show dot only if user has unread AND is NOT the selected user
+                            const showDot = user.has_unread && !isSelected;
+                            const dot = showDot ? '<span class="inline-block w-2 h-2 bg-red-500 rounded-full ml-2"></span>' : '';
+                            
+                            const userItem = $(`
+                                <div class="cursor-pointer hover:bg-gray-100 p-2 rounded user-item" data-id="${user.id}" data-type="${user.type}">
+                                    ${user.name} (${user.id_num}) ${dot}
+                                </div>
+                            `);
+                            userList.append(userItem);
+                        });
+                        if (scrollToSelected && selectedUser) {
+                            $(`.user-item[data-id="${selectedUser.id}"][data-type="${selectedUser.type}"]`).addClass('bg-gray-200');
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("Failed to load users: " + xhr.responseText);
                     }
                 });
             }
-        }
 
-        $(document).ready(function() {
-            loadUsers();
-
-            $('#user_list').on('click', '.user-item', function() {
-                currentUser = $(this).data('id');
-                loadMessages();
-            });
-
-            $('#feedback_form').submit(function(e) {
-                e.preventDefault();
-                const message = $('#message_input').val();
-                if (message && currentUser) {
-                    $.ajax({
-                        url: 'send_message.php',
-                        method: 'POST',
-                        data: { message: message, receiver_id: currentUser },
-                        success: function(response) {
-                            $('#message_input').val('');
-                            loadMessages();
-                        }
-                    });
-                }
-            });
-
-            $('#back_button').click(function() {
-                $('#message_area').html('');
-                currentUser = null;
-            });
-        });
-    </script>
-    <script>
-        function showSection(sectionId) {
-            var sections = document.getElementsByClassName('content-section');
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].classList.remove('active');
+            function startUserListPolling() {
+                if (pollingUserList) clearInterval(pollingUserList);
+                pollingUserList = setInterval(() => {
+                    loadUsers(true);
+                }, 5000);
             }
-            document.getElementById(sectionId).classList.add('active');
-        }
 
-        function editDetails() {
-            document.getElementById('details-view').style.display = 'none';
-            document.getElementById('details-edit').style.display = 'block';
+            function startConversationPolling(userType, userId) {
+                if (pollingConversation) clearInterval(pollingConversation);
+                pollingConversation = setInterval(() => {
+                    if (selectedUser) {
+                        loadConversation(userType, userId, true);
+                        markAsRead(userType, userId);
+                    }
+                }, 5000);
+            }
 
-            document.getElementById('editAdminName').value = document.getElementById('user-name').innerText;
-            document.getElementById('editAdminEmail').value = document.getElementById('user-email').innerText;
-            document.getElementById('editAdminDob').value = document.getElementById('user-dob').innerText;
-        }
+            // Load conversation
+            function loadConversation(userType, userId, scroll = true) {
+                $.ajax({
+                    url: 'fetch_conversation.php',
+                    method: 'POST',
+                    data: { user_type: userType, user_id: userId },
+                    success: function (data) {
+                        if (data.error) {
+                            alert("Error: " + data.error);
+                            return;
+                        }
+                        
+                        const chatBox = $('#conversation').empty();
+                        if (data.length === 0) {
+                            chatBox.html('<p class="text-gray-500 italic">No messages yet</p>');
+                            return;
+                        }
 
-        function saveDetails() {
-            var name = document.getElementById('editAdminName').value;
-            var email = document.getElementById('editAdminEmail').value;
-            var dob = document.getElementById('editAdminDob').value;
-        
-            // AJAX request to update details in the database
-            fetch('updateAdmindetails.php', {
+                        data.forEach(msg => {
+                            const align = msg.sender_type === 'admin' ? 'text-right' : 'text-left';
+                            const bg = msg.sender_type === 'admin' ? 'bg-blue-100' : 'bg-green-100';
+                            const bubble = `<div class="${align} mb-2"><span class="inline-block ${bg} px-3 py-2 rounded-lg">${msg.message}</span></div>`;
+                            chatBox.append(bubble);
+                        });
+
+                        if (scroll) {
+                            chatBox.scrollTop(chatBox[0].scrollHeight);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("Failed to load conversation: " + xhr.responseText);
+                    }
+                });
+            }
+
+            function markAsRead(userType, userId) {
+                // Mark as read
+                $.ajax({
+                    url: 'mark_as_read.php',
+                    method: 'POST',
+                    data: { user_type: userType, user_id: userId },
+                    error: function (xhr) {
+                        alert("Failed to mark messages as read: " + xhr.responseText);
+                    }
+                });
+            }
+
+            // Send message
+            $('#sendMessageBtn').on('click', function () {
+                if (!selectedUser) {
+                    alert("Select a user to send message.");
+                    return;
+                }
+
+                const message = $('#messageInput').val().trim();
+                if (message === '') {
+                    alert("Message cannot be empty.");
+                    return;
+                }
+
+                $.ajax({
+                    url: 'send_message.php',
+                    method: 'POST',
+                    data: {
+                        receiver_type: selectedUser.type,
+                        receiver_id: selectedUser.id,
+                        message: message
+                    },
+                    success: function (data) {
+                        if (data.error) {
+                            alert("Error: " + data.error);
+                            return;
+                        }
+
+                        $('#messageInput').val('');
+                        loadConversation(selectedUser.type, selectedUser.id);
+                        loadUsers(true);
+                    },
+                    error: function (xhr) {
+                        alert("Failed to send message: " + xhr.responseText);
+                    }
+                });
+            });
+
+            // Handle user click
+            $('#userList').on('click', '.user-item', function () {
+                const userType = $(this).data('type');
+                const userId = $(this).data('id');
+                selectedUser = {type: userType, id: userId};
+
+                // Remove highlight from all
+                $('.user-item').removeClass('bg-blue-100 font-semibold text-blue-800');
+
+                // Add highlight to selected
+                $(this).addClass('bg-blue-100 font-semibold text-blue-800');
+
+                loadConversation(userType, userId);
+                markAsRead(userType, userId);
+                // remove notification dot
+                $(this).find('span').remove(); 
+                $(this).addClass('bg-gray-200');
+                
+                startConversationPolling(userType, userId);
+            });
+
+            loadUsers();
+            startUserListPolling();
+        });
+
+        //Populate User Details    
+        fetch('admin.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('userType').textContent = 'Administrator';
+                document.getElementById('userName').textContent = data.administrator.name;
+                document.getElementById('userEmail').textContent = data.administrator.email;
+                document.getElementById('userDob').textContent = data.administrator.dob;
+                document.getElementById('userId').textContent = data.administrator.id_num;
+            } else {
+                    alert('Failed to load user details.');}
+        })
+        .catch(error => console.error('Error:', error));
+
+        // Add Index Numbers functionality
+        document.getElementById('addIndexBtn').addEventListener('click', () => {
+            const type = document.getElementById('indexType').value;
+            const rawInput = document.getElementById('indexNumber').value.trim();
+
+            // Split input by line and filter out empty lines
+            const ids = rawInput.split('\n').map(id => id.trim()).filter(id => id !== '');
+
+            if (ids.length === 0) {
+                alert('Please enter at least one ID.');
+                return;
+            }
+
+            fetch('add_indexes.php', {
                 method: 'POST',
+                body: JSON.stringify({ type, ids }),
                 headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    dob: dob
-                })
+                    'Content-Type': 'application/json'
+                }
             })
-            .then(response => response.json())
+            .then(response => response.text().then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error('Invalid JSON from server:', text);
+                    throw new Error('Invalid JSON');
+                }
+            }))
             .then(data => {
                 if (data.success) {
-                    // Update the UI with the new details
-                    document.getElementById('user-name').innerText = name;
-                    document.getElementById('user-email').innerText = email;
-                    document.getElementById('user-dob').innerText = dob;
-                    cancelEdit();
-                    alert('Details updated successfully');
+                    alert(data.message);
+                    document.getElementById('indexNumber').value = '';
+
+                    // Update the table according to the type of IDs successfully added to the database
+                    const tableBody = document.getElementById('idTableBody');
+                    ids.forEach(id => {
+                        if (data.skippedIds && data.skippedIds.includes(id)) return; // Skip already existing IDs
+
+                        const newRow = document.createElement('tr');
+                        if (type === 'student') {
+                            newRow.innerHTML = `<td class="py-2 px-4 border-b">${id} <button class="ml-2 text-red-600 hover:text-red-800 delete-id" data-type="student" data-id="${id}"><i class="fas fa-trash"></i></button></td><td class="py-2 px-4 border-b"></td><td class="py-2 px-4 border-b"></td>`;
+                        } else if (type === 'lecturer') {
+                            newRow.innerHTML = `<td class="py-2 px-4 border-b"></td><td class="py-2 px-4 border-b">${id} <button class="ml-2 text-red-600 hover:text-red-800 delete-id" data-type="lecturer" data-id="${id}"><i class="fas fa-trash"></i></button></td><td class="py-2 px-4 border-b"></td>`;
+                        } else if (type === 'admin') {
+                            newRow.innerHTML = `<td class="py-2 px-4 border-b"></td><td class="py-2 px-4 border-b"></td><td class="py-2 px-4 border-b">${id} <button class="ml-2 text-red-600 hover:text-red-800 delete-id" data-type="admin" data-id="${id}"><i class="fas fa-trash"></i></button></td>`;
+                        }
+                        tableBody.appendChild(newRow);
+                    });
+                    
                 } else {
-                    alert('Failed to update details');
+                    alert('Server Error: ' + data.message);
                 }
             })
-            .catch(error => console.error('Error:', error));
-        }
+            .catch(error => {
+                console.error(error);
+                alert('An error occurred while adding IDs.');
+            });
+        });
 
-        function cancelEdit() {
-            document.getElementById('details-view').style.display = 'block';
-            document.getElementById('details-edit').style.display = 'none';
-        }
-
-        function fetchResults() {
-            const exam_id = document.getElementById('exam_idd').value;
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Clear session or any authentication tokens
+            sessionStorage.removeItem('adminLoggedIn');
             
-            if (exam_id) {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'fetch_results_admin.php', true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        document.getElementById('resultContainer').innerHTML = xhr.responseText;
-                    }
-                };
-                
-                xhr.send('exam_id=' + exam_id);
-            } else {
-                alert('Please enter an Exam ID.');
-            }
-        }
-            // Function to fetch student details from the PHP script
-    function fetchStudents() {
-        fetch('fetch_students.php')
-            .then(response => response.json())
-            .then(data => {
-                let tableBody = document.getElementById('studentApprovalTable');
-                tableBody.innerHTML = ""; // Clear any existing rows
-
-                data.forEach(student => {
-                    let row = `<tr>
-                                    <td>${student.name}</td>
-                                    <td>${student.dob}</td>
-                                    <td>${student.school}</td>
-                                    <td>${student.student_id}</td>
-                                    <td>
-                                        <button class="btn btn-danger" onclick="rejectUser(${student.student_id}, 'student')">Reject</button>
-                                    </td>
-                                </tr>`;
-                    tableBody.insertAdjacentHTML('beforeend', row);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching students:', error);
-            });
-    }
-
-    // Function to fetch lecturer details from the PHP script
-    function fetchLecturers() {
-        fetch('fetch_lecturers.php')
-            .then(response => response.json())
-            .then(data => {
-                let tableBody = document.getElementById('lecturerApprovalTable');
-                tableBody.innerHTML = ""; // Clear any existing rows
-
-                data.forEach(lecturer => {
-                    let row = `<tr>
-                                    <td>${lecturer.name}</td>
-                                    <td>${lecturer.dob}</td>
-                                    <td>${lecturer.school}</td>
-                                    <td>${lecturer.lecturer_id}</td>
-                                    <td>
-                                        <button class="btn btn-danger" onclick="rejectUser(${lecturer.lecturer_id}, 'lecturer')">Reject</button>
-                                    </td>
-                                </tr>`;
-                    tableBody.insertAdjacentHTML('beforeend', row);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching lecturers:', error);
-            });
-    }
-
-    // JavaScript function to reject a user (either student or lecturer)
-    function rejectUser(userId, userType) {
-    let url;
-
-    // Determine the appropriate URL based on user type (student or lecturer)
-    if (userType === 'student') {
-        url = `reject_student.php?student_id=${userId}`;
-    } else if (userType === 'lecturer') {
-        url = `reject_lecturer.php?lecturer_id=${userId}`;
-    }
-
-    if (confirm('Are you sure you want to reject this user?')) {
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                alert(data); // Show the response message
-                if (userType === 'student') {
-                    fetchStudents(); // Refresh the student list
-                } else {
-                    fetchLecturers(); // Refresh the lecturer list
-                }
-            })
-            .catch(error => {
-                console.error('Error rejecting user:', error);
-            });
-    }
-}
-
-    // Fetch both students and lecturers when the page loads
-    window.onload = function() {
-        fetchStudents(); // Fetch student data
-        fetchLecturers(); // Fetch lecturer data
-    };        
+            // Redirect to login page
+            window.location.href = 'login.html';
+            
+            // Prevent back button navigation
+            window.history.pushState(null, null, 'login.html');
+            window.onpopstate = function() {
+                window.history.pushState(null, null, 'login.html');
+            };
+        });
     </script>
 </body>
 </html>

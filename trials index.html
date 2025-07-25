@@ -1,0 +1,127 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Examination Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-hero-bg {
+            background: url('camps.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 15px rgba(236, 235, 238, 0.7);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+
+    <!-- Color Bars constituting the top frame (Yellow, Green, Brown, Blue) -->
+    <div class="w-full h-2 flex">
+        <div class="flex-1 bg-yellow-400"></div>
+        <div class="flex-1 bg-green-600"></div>
+        <div class="flex-1 bg-yellow-900"></div>
+        <div class="flex-1 bg-blue-600"></div>
+    </div>
+
+    <!-- Top Division - Navigation Pane -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex items-center justify-between">
+            <!-- Left side - Logo -->
+
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                    <img src="lg.png" alt="School Logo" class="rounded-full" id="school-logo">
+                </div>
+            </div>
+            <div class="flex-1 text-center">
+                <h2 class="text-4xl font-bold text-black-800">UNIVERSITY OF ENERGY AND NATURAL RESOURCES</h2>
+                <h3 class="text-2xl font-bold text-green-800">ONLINE EXAMINATION MANAGEMENT SYSTEM</h3>
+            </div>
+
+            <!-- Right side - Login Button -->
+            <div>
+                <a href="login.html" id="logIn">
+                    <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-medium transition duration-300 flex items-center">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Login
+                    </button>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Middle Division - Hero Section with Sign Up Button -->
+    <main class="custom-hero-bg text-white">
+        <div class="container mx-auto px-6 py-20 text-center bg-black bg-opacity-40 rounded-lg">
+            <h2 class="text-4xl font-bold mb-6">Welcome</h2>
+            <p class="text-xl mb-10 max-w-2xl mx-auto">Our platform is designed to streamline and secure examination process, ensuring efficiency and integrity.</p>
+
+            <!-- Bold Sign Up Button -->
+            <a href="signup.html" id="signUp">
+                <button class="bg-green-600 text-white-600 hover:bg-green-700 px-10 py-4 rounded-full font-bold text-xl transition duration-300 btn-glow">
+                    SIGN UP NOW <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </a>
+
+            <!-- Feature Highlights -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm feature-card transition duration-300">
+                    <i class="fas fa-laptop-code text-4xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Online Examination</h3>
+                    <p>Conduct secure online exams effectively on a reliable platform.</p>
+                </div>
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm feature-card transition duration-300">
+                    <i class="fas fa-chart-bar text-4xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Analytics</h3>
+                    <p>Get detailed performance analytics and insights for better decision making.</p>
+                </div>
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm feature-card transition duration-300">
+                    <i class="fas fa-shield-alt text-4xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Security</h3>
+                    <p>Advanced security measures to prevent cheating and ensure exam integrity.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+     <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+              
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400 text-sm">
+                <p>  Developers: Aadil Yahuza Harun | Hajara Larabu | Ocloo M.S. Gakpetor </p>
+        <p>&copy; 2025, All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- JavaScript Logic -->
+     <script>
+        // You can add JavaScript functionality here
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        function replaceLogo(newLogoUrl) {
+            document.getElementById('lg.png').src = newLogoUrl;
+        }
+        window.onload = function() {
+            replaceLogo('lg.png');
+        };
+    </script>
+</body>
+</html>

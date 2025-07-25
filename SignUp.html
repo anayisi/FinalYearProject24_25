@@ -3,325 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SignUp</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Sign Up - Online Examination Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-color: #f8f9fa;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            -webkit-text-size-adjust: 100%; /* Older versions of iOS Safari, Android */
-            text-size-adjust: 100%;
+               .gradient-bg {
+    background: #fff; /* Set background to white */
+}
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
         }
-        header {
-            background-color: #343a40;
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-container {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .form-container:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .radio-option {
+            transition: all 0.2s ease;
+        }
+        
+        .radio-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .radio-option input:checked + label {
+            background-color: #3b82f6;
             color: white;
-            padding: 1rem;
-            text-align: center;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
-        header img {
-            margin-right: 1rem;
-        }
-        header .text-center {
-            margin: 0;
-            flex-grow: 1;
-            text-align: center;
-        }
-        header h3 {
-            margin: 0;
-        }
-        header h5 {
-            margin: 0;
-            font-size: 0.8rem;
-        }
-        header p {
-            margin: 0;
-        }
-        header button {
-            margin-left: 1rem;
-        }
-        footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            width: 100%;
-        }
-        .container {
-            margin-top: 2rem;
-            width: 80%;
-            max-width: 600px;
-            flex: 1;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        .heading1 {
-            text-align: center;
-            padding-bottom: 10%;
-        }
-        h3 {
-            margin-top: 10%;
-        }
-        hr {
-            border: none;
-            height: 2px;
-            background-color: #00ff15; /* Modern Browsers */
-        }
+
     </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+      
+      <!-- Header -->
+    <header class="bg-white shadow-md">
+        <nav class="container mx-auto px-6 py-3 flex items-center justify-between">
+            <!-- Left side - Logo Placeholder -->
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                    <!-- Place your logo here -->
+                    <img src="lg.png" alt="University Logo" class="rounded-full object-cover w-12 h-12">
+                </div>
+            </div>
+
+            <!-- Center - University Name -->
+            <div class="flex-1 text-center">
+                <h1 class="text-2xl font-bold text-black-800">UNIVERSITY OF ENERGY AND NATURAL RESOURCES</h1>
+                <h3 class="text-xl font-semibold text-green-800">Online Examination Management System</h3>
+            </div>
+    </header>
+<!-- Color Bars constituting the top frame (Yellow, Green, Brown, Blue) -->
+<div class="w-full h-2 flex">
+    <div class="flex-1 bg-yellow-400"></div>
+    <div class="flex-1 bg-green-600"></div>
+    <div class="flex-1 bg-yellow-900"></div>
+    <div class="flex-1 bg-blue-600"></div>
+</div>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
+        <div class="form-container bg-white rounded-xl p-8 w-full max-w-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-blue-800"></div>
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Create Your Account</h2>
+            
+            <form id="signup-form" class="space-y-6">
+                <!-- Basic Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="name" name="name" required 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300">
+                    </div>
+                    <div>
+                        <label for="dob" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                        <input type="date" id="dob" name="dob" required 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" required 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300">
+                </div>
+                
+                <!-- User Type Selection -->
+                <div>
+                    <p class="block text-sm font-medium text-gray-700 mb-3">Select Your Role</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="radio-option">
+                            <input type="radio" id="student" name="userType" value="student" class="hidden peer" checked>
+                            <label for="student" class="flex flex-col items-center justify-center p-4 border border-gray-300 rounded-lg cursor-pointer peer-checked:bg-blue-100 peer-checked:border-blue-500 transition duration-300">
+                                <i class="fas fa-user-graduate text-3xl mb-2 text-blue-600"></i>
+                                <span class="font-medium">Student</span>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="lecturer" name="userType" value="lecturer" class="hidden peer">
+                            <label for="lecturer" class="flex flex-col items-center justify-center p-4 border border-gray-300 rounded-lg cursor-pointer peer-checked:bg-blue-100 peer-checked:border-blue-500 transition duration-300">
+                                <i class="fas fa-chalkboard-teacher text-3xl mb-2 text-blue-600"></i>
+                                <span class="font-medium">Lecturer</span>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="admin" name="userType" value="admin" class="hidden peer">
+                            <label for="admin" class="flex flex-col items-center justify-center p-4 border border-gray-300 rounded-lg cursor-pointer peer-checked:bg-blue-100 peer-checked:border-blue-500 transition duration-300">
+                                <i class="fas fa-user-shield text-3xl mb-2 text-blue-600"></i>
+                                <span class="font-medium">Administrator</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dynamic Fields -->
+                <div id="dynamicFields">
+                    <!-- Student Fields (default) -->
+                    <div id="studentSection" class="fade-in space-y-6">
+                        <div>
+                            <label for="level" class="block text-sm font-medium text-gray-700 mb-1">Level</label>
+                            <select id="level" name="level" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300">
+                                <option value="">Select Level</option>
+                                <option value="100">Level 100</option>
+                                <option value="200">Level 200</option>
+                                <option value="300">Level 300</option>
+                                <option value="400">Level 400</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="school" class="block text-sm font-medium text-gray-700 mb-1">School</label>
+                            <select id="school" name="school" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300">
+                                <option value="">Select School</option>
+                                <option value="SCIENCES">Sciences</option>
+                                <option value="ENGINEERING">Engineering</option>
+                                <option value="AGRICULTURE AND TECHNOLOGY">Agriculture and Technology</option>
+                                <option value="GEOSCIENCES">Geosciences</option>
+                                <option value="GRADUATE STUDIES">Graduate Studies</option>
+                                <option value="NATURAL RESOURCES">Natural Resources</option>
+                                <option value="MINES AND BUILT ENVIRONMENT">Mines and Built Environment</option>
+                                <option value="ARTS AND SOCIAL SCIENCES">Arts and Social Sciences</option>
+                                <option value="ENERGY">Energy</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="program" class="block text-sm font-medium text-gray-700 mb-1">Program</label>
+                            <select id="program" name="program" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300">
+                                <option value="">Select Program</option>
+                                <!-- Programs will be populated dynamically based on school selection -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Lecturer Fields (hidden by default) -->
+                    <div id="lecturerSection" class="hidden fade-in space-y-6">
+                        <div>
+                            <label for="lecturerSchool" class="block text-sm font-medium text-gray-700 mb-1">School</label>
+                            <select id="lec_school" name="school" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300">
+                                <option value="">Select School</option>
+                                <option value="SCIENCES">Sciences</option>
+                                <option value="ENGINEERING">Engineering</option>
+                                <option value="AGRICULTURE AND TECHNOLOGY">Agriculture and Technology</option>
+                                <option value="GEOSCIENCES">Geosciences</option>
+                                <option value="GRADUATE STUDIES">Graduate Studies</option>
+                                <option value="NATURAL RESOURCES">Natural Resources</option>
+                                <option value="MINES AND BUILT ENVIRONMENT">Mines and Built Environment</option>
+                                <option value="ARTS AND SOCIAL SCIENCES">Arts and Social Sciences</option>
+                                <option value="ENERGY">Energy</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Admin Fields (hidden by default) -->
+                    <div id="adminSection" class="hidden fade-in">
+                        <!-- No additional fields needed for admin beyond ID and password -->
+                    </div>
+                </div>
+                
+                <!-- Common Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="id_num" class="block text-sm font-medium text-gray-700 mb-1">ID</label>
+                        <input type="text" id="id_num" name="id_num" required 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300">
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" id="password" name="password" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300">
+                            <button type="button" class="absolute right-3 top-2 text-gray-500 hover:text-gray-700" onclick="togglePassword('password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                    <div class="relative">
+                        <input type="password" id="confirmPassword" name="confirmPassword" required 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300">
+                        <button type="button" class="absolute right-3 top-2 text-gray-500 hover:text-gray-700" onclick="togglePassword('confirmPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex items-center">
+                    <input type="checkbox" id="terms" name="terms" required 
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="terms" class="ml-2 block text-sm text-gray-700">
+                        I agree to the <a href="#" class="text-blue-600 hover:underline">Terms and Conditions</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300">
+                    <i class="fas fa-user-plus mr-2"></i>Sign Up
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+<footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto px-6">
+        <div class="border-t border-gray-700 text-center text-gray-400 text-sm">
+            Developers: Aadil Yahuza Harun | Hajara Larabu | Ocloo M.S. Gakpetor
+            <p>&copy; 2025, All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
     <script>
-        function updatePrograms() {
-            var schoolPrograms = {
-                "SCIENCES": ["Diploma Statistics (Regular/Weekend)", "Diploma Information Technology",
-                    "Diploma Computer Science", "BSc. Biological Science", "BSc. Medical Laboratory Sciences",
-                    "BSc. Nursing", "BSc. Chemistry", "BSc. Computer Science (Regular/Weekend)",
-                    "BSc. Information Technology (Regular/Weekend)", "BSc. Actuarial Science (Regular/Weekend)",
-                    "BSc. Statistics (Regular/Weekend)", "BSc. Mathematics (Regular/Weekend)", "BSc. Biochemistry"],
+        // Program data
+        const programsBySchool = {
+            "SCIENCES": ["Diploma Statistics (Regular/Weekend)", "Diploma Information Technology", "Diploma Computer Science", "BSc. Biological Science", "BSc. Medical Laboratory Sciences", "BSc. Nursing", "BSc. Chemistry", "BSc. Computer Science (Regular/Weekend)", "BSc. Information Technology (Regular/Weekend)", "BSc. Actuarial Science (Regular/Weekend)", "BSc. Statistics (Regular/Weekend)", "BSc. Mathematics (Regular/Weekend)", "BSc. Biochemistry"],
+            "ENGINEERING": ["BSc. Agricultural Engineering", "BSc. Computer Engineering", "BSc. Electrical and Electronic Engineering [Regular/Weekend]", "BSc. Environmental Engineering", "BSc. Mechanical Engineering [Regular/Weekend]", "BSc. Civil Engineering [Regular/Weekend]"],
+            "AGRICULTURE AND TECHNOLOGY": ["BSc. Agriculture", "BSc. Agribusiness", "BSc. Food Technology", "BSc. Agricultural Resource and Economics"],
+            "GEOSCIENCES": ["Diploma Geo-Information Science", "Diploma Geomatics","BSc. Geomatics", "BSc. Planning and Sustainability", "BSc. Applied Meteorology and Climate Science", "BSc. Geoinformation Science", "BSc. Geo-Environmental Science", "BSc. Climate Change and Sustainability"],
+            "GRADUATE STUDIES": ["MSc./PhD Sustainable Energy Management", "MSc./PhD Environmental Engineering Management", "MPhil/PhD Social Forestry and Environmental Governance", "MSc./MPhil/PhD Environment", "Water and Sustainability", "MBA/MPhil/PhD Crop Science", "MSc./MPhil/PhD Computer Science", "MPhil. Applied Mathematics", "MSc./MPhil Environmental Planning and Development", "MBA/MPhil Agribusiness Management", "MSc./MPhil Climate Change", "MSc./MPhil Geoinformation Science", "MSc./MPhil Land Degradation Neutrality", "PhD Sustainable Land Management", "MSc./MPhil. Animal Production", "MPhil. Chemistry", "MPhil. Environment Science", "MSc. Sustainable Mining"],
+            "NATURAL RESOURCES": ["Diploma Natural Resources Management", "Diploma Fire, Safety and Disaster Management", "BSc. Natural Resources","BSc. Hospitality Management", "BSc. Aquaculture and Aquatic Resource Management", "BSc. Fire, Safety and Disaster Management"],
+            "MINES AND BUILT ENVIRONMENT": ["BSc. Sustainable Mining", "BSc. Sustainable Land Management"],
+            "ARTS AND SOCIAL SCIENCES": ["BSc. Entrepreneurial Management", "BSc. Accounting", "BSc. Economics", "BA Professional French"],
+            "ENERGY": ["BSc. Petroleum Engineering", "BSc. Renewable Energy Engineering"]
+        };
 
-                    "ENGINEERING": ["BSc. Agricultural Engineering", "BSc. Computer Engineering", 
-                    "BSc. Electrical and Electronic Engineering [Regular/Weekend]",
-                    "BSc. Environmental Engineering", "BSc. Mechanical Engineering [Regular/Weekend]", 
-                    "BSc. Civil Engineering [Regular/Weekend"],
+        // Toggle password visibility
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const icon = field.nextElementSibling.querySelector('i');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
 
-                    "AGRICULTURE AND TECHNOLOGY": ["BSc. Agriculture",
-                    "BSc. Agribusiness", "BSc. Food Technology", "BSc. Agricultural Resource and Economics"],
+        // Handle user type selection
+        document.querySelectorAll('input[name="userType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('studentSection').classList.add('hidden');
+                document.getElementById('lecturerSection').classList.add('hidden');
+                document.getElementById('adminSection').classList.add('hidden');
+                
+                if (this.value === 'student') {
+                    document.getElementById('studentSection').classList.remove('hidden');
+                } else if (this.value === 'lecturer') {
+                    document.getElementById('lecturerSection').classList.remove('hidden');
+                } else if (this.value === 'admin') {
+                    document.getElementById('adminSection').classList.remove('hidden');
+                }
+            });
+        });
 
-                    "GEOSCIENCES": ["Diploma Geo-Information Science", "Diploma Geomatics","BSc. Geomatics",
-                    "BSc. Planning and Sustainability", "BSc. Applied Meteorology and Climate Science",
-                    "BSc. Geoinformation Science", "BSc. Geo-Environmental Science",
-                    "BSc. Climate Change and Sustainability"],
-
-                    "GRADUATE STUDIES": ["MSc./PhD Sustainable Energy Management",
-                    "MSc./PhD Environmental Engineering Management",
-                    "MPhil/PhD Social Forestry and Environmental Governance",
-                    "MSc./MPhil/PhD Environment", "Water and Sustainability",
-                    "MBA/MPhil/PhD Crop Science", "MSc./MPhil/PhD Computer Science",
-                    "MPhil. Applied Mathematics", "MSc./MPhil Environmental Planning and Development",
-                    "MBA/MPhil Agribusiness Management", "MSc./MPhil Climate Change",
-                    "MSc./MPhil Geoinformation Science", "MSc./MPhil Land Degradation Neutrality",
-                    "PhD Sustainable Land Management", "MSc./MPhil. Animal Production",
-                    "MPhil. Chemistry", "MPhil. Environment Science", "MSc. Sustainable Mining"],
-
-                    "NATURAL RESOURCES": ["Diploma Natural Resources Management",
-                    "Diploma Fire, Safety and Disaster Management",
-                    "BSc. Natural Resources","BSc. Hospitality Management",
-                    "BSc. Aquaculture and Aquatic Resource Management", "BSc. Fire, Safety and Disaster Management"],
-
-                    "MINES AND BUILT ENVIRONMENT": ["BSc. Sustainable Mining", "BSc. Sustainable Land Management"],
-
-                    "ARTS AND SOCIAL SCIENCES": ["BSc. Entrepreneurial Management", "BSc. Accounting",
-                    "BSc. Economics", "BA Professional French"],
-
-                    "ENERGY": ["BSc. Petroleum Engineering", "BSc. Renewable Energy Engineering"]
-            };
-            var schoolSelect = document.getElementById("school");
-            var programSelect = document.getElementById("program");
-            var selectedSchool = schoolSelect.value;
-
+        // Populate programs based on school selection
+        document.getElementById('school').addEventListener('change', function() {
+            const school = this.value;
+            const programSelect = document.getElementById('program');
+            
             // Clear existing options
-            programSelect.innerHTML = "";
-
-            // Populate new options
-            if (selectedSchool) {
-                var programs = schoolPrograms[selectedSchool];
-                programs.forEach(function (program) {
-                    var option = document.createElement("option");
+            programSelect.innerHTML = '<option value="">Select Program</option>';
+            
+            if (school && programsBySchool[school]) {
+                programsBySchool[school].forEach(program => {
+                    const option = document.createElement('option');
                     option.value = program;
-                    option.text = program;
-                    programSelect.add(option);
+                    option.textContent = program;
+                    programSelect.appendChild(option);
                 });
             }
-        }
+        });
 
-        function toggleSections() {
-            var studentSection = document.getElementById("studentSection");
-            var lecturerSection = document.getElementById("lecturerSection");
-            var adminSection = document.getElementById("adminSection");
-
-            studentSection.style.display = "none";
-            lecturerSection.style.display = "none";
-            adminSection.style.display = "none";
-
-            var category = document.querySelector('input[name="category"]:checked').value;
-            if (category === "student") {
-                studentSection.style.display = "block";
-            } else if (category === "lecturer") {
-                lecturerSection.style.display = "block";
-            } else if (category === "administrator") {
-                adminSection.style.display = "block";
-            }
-        }
-    </script>
-</head>
-<body>
-    <header>
-        <img src="lg.png" width="5%" alt="Group Logo">
-        <div class="text-center">
-            <h2>UNIVERSITY OF ENERGY AND NATURAL RESOURCES</h2>
-            <h3>ONLINE EXAMINATION MANAGEMENT SYSTEM</h3>
-        </div>
-        <p><a href="login.html" id="logIn"><button class="btn btn-primary">Login</button></a></p>
-    </header>
-    <hr>
-    <div class="signup-container">
-        <h2 class="text-center">Signup</h2>
-        <form id="signup-form">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Your name" required autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="dob">Date of Birth</label>
-                <input type="date" class="form-control" id="dob" name="dob" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required autocomplete="off">
-            </div>
-            <h3>CATEGORY</h3>
-            <div class="category">
-                <label>
-                    <input type="radio" name="category" value="student" onclick="toggleSections()"> Student
-                </label><br>
-                <label>
-                    <input type="radio" name="category" value="lecturer" onclick="toggleSections()"> Lecturer
-                </label><br>
-                <label>
-                    <input type="radio" name="category" value="administrator" onclick="toggleSections()"> Administrator
-                </label>
-            </div>
-            <hr>
-            <div id="studentSection" style="display: none;">
-                <h4>Student</h4>
-                <div class="form-group">
-                    <label for="level">Level</label>
-                    <select id="level" name="level" class="form-control" >
-                        <option value="">Select your level</option>
-                        <option value="level_100">Level 100</option>
-                        <option value="level_200">Level 200</option>
-                        <option value="level_300">Level 300</option>
-                        <option value="level_400">Level 400</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="school">School</label>
-                    <select id="school" name="school" class="form-control" onchange="updatePrograms()" >
-                        <option value="">Select your school</option>
-                        <option value="SCIENCES">SCIENCES</option>
-                        <option value="ENGINEERING">ENGINEERING</option>
-                        <option value="AGRICULTURE AND TECHNOLOGY">AGRICULTURE AND TECHNOLOGY</option>
-                        <option value="GEOSCIENCES">GEOSCIENCES</option>
-                        <option value="GRADUATE STUDIES">GRADUATE STUDIES</option>
-                        <option value="NATURAL RESOURCES">NATURAL RESOURCES</option>
-                        <option value="MINES AND BUILT ENVIRONMENT">MINES AND BUILT ENVIRONMENT</option>
-                        <option value="ARTS AND SOCIAL SCIENCES">ARTS AND SOCIAL SCIENCES</option>
-                        <option value="ENERGY">ENERGY</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="program">Program</label>
-                    <select id="program" class="form-control" name="program">
-                        <option value="">Select your program</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="id_num">Id</label>
-                    <input type="text" class="form-control" id="id_num" name="id_num" placeholder="Your id number" autocomplete="off">
-                </div>
-            </div>
-
-            <div id="lecturerSection" style="display: none;">
-                <h4>Lecturer</h4>
-                <div class="form-group">
-                    <label for="school">School</label>
-                    <select id="lec_school" class="form-control" name="school">
-                        <option value="">Select your school</option>
-                        <option value="lec_SCIENCES">SCIENCES</option>
-                        <option value="lec_ENGINEERING">ENGINEERING</option>
-                        <option value="lec_AGRICULTURE AND TECHNOLOGY">AGRICULTURE AND TECHNOLOGY</option>
-                        <option value="lec_GEOSCIENCES">GEOSCIENCES</option>
-                        <option value="lec_GRADUATE STUDIES">GRADUATE STUDIES</option>
-                        <option value="lec_NATURAL RESOURCES">NATURAL RESOURCES</option>
-                        <option value="lec_MINES AND BUILT ENVIRONMENT">MINES AND BUILT ENVIRONMENT</option>
-                        <option value="lec_ARTS AND SOCIAL SCIENCES">ARTS AND SOCIAL SCIENCES</option>
-                        <option value="lec_ENERGY">ENERGY</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="id_num">Id</label>
-                    <input type="text" class="form-control" id="lec_id_num" name="id_num" placeholder="Your id number" autocomplete="off">
-                </div>
-            </div>
-
-            <div id="adminSection" style="display: none;">
-                <h4>Administrator</h4>
-                <div class="form-group">
-                    <label for="id_num">Id</label>
-                    <input type="text" class="form-control" id="admin_id_num" name="id_num" placeholder="Your id number" autocomplete="off">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required autocomplete="off">
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">SignUp</button>
-            <div id="message" class="mt-3 text-center"></div>
-        </form>
-    </div>
-    <footer>
-        &copy; 2024 University of Energy and Natural Resources. All rights reserved.
-    </footer>
-    <script>
-        document.getElementById('signup-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+        // Form submission
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
             const name = document.getElementById('name').value;
             const dob = document.getElementById('dob').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const category = document.querySelector('input[name="category"]:checked').value;
+            const id_num = document.getElementById('id_num').value;
+            const userType = document.querySelector('input[name="userType"]:checked').value;
+            const terms = document.getElementById('terms').checked;
+            const confirmPassword = document.getElementById('confirmPassword').value;
             
             let additionalDetails = {};
-
-            if (category === 'student') {
-                additionalDetails = {
-                    level: document.getElementById('level').value,
-                    school: document.getElementById('school').value,
-                    program: document.getElementById('program').value,
-                    id_num: document.getElementById('id_num').value
-                };
-            } else if (category === 'lecturer') {
-                additionalDetails = {
-                    school: document.getElementById('lec_school').value,
-                    id_num: document.getElementById('lec_id_num').value
-                };
-            } else if (category === 'administrator') {
-                additionalDetails = {
-                    id_num: document.getElementById('admin_id_num').value
-                };
+            if (userType === 'student') {
+                additionalDetails.level = document.getElementById('level').value;
+                additionalDetails.school = document.getElementById('school').value;
+                additionalDetails.program = document.getElementById('program').value;
+            } else if (userType === 'lecturer') {
+                additionalDetails.school = document.getElementById('lec_school').value;
+            } else if (userType === 'admin') {
+                // No additional fields for admin
             }
 
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            // Here you would typically send the form data to the server
             fetch('signup.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name, dob, email, password, category, ...additionalDetails })
+                body: JSON.stringify({ name, dob, email, password, userType, id_num, ...additionalDetails })
             })
 
             .then(response => response.json())
-            .then(data => { const messageDiv = document.getElementById('message');
-            if (data.success) { messageDiv.textContent = 'Signup successful!';
-            messageDiv.className = 'text-success'; 
-            } else { messageDiv.textContent = data.message;
-            messageDiv.className = 'text-danger'; } }) 
-            .catch(error => console.error('Error:', error));
+            .then(data => {
+                if (data.success) {
+                    alert('Sign up successful!');
+                    //Redirect to login page
+                    window.location.href = 'login.html';
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
         });
+        // Add fade-in effect to the form container
+        document.querySelector('.form-container').classList.add('fade-in');
+        // Add fade-in effect to the header and footer
+        document.querySelector('header').classList.add('fade-in');
+        document.querySelector('footer').classList.add('fade-in');
+        // Add fade-in effect to the main content
+        document.querySelector('main').classList.add('fade-in');
     </script>
 </body>
 </html>

@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $table = '';
     
     // Check if email exists in students table
-    $sql = "SELECT * FROM students WHERE email = ?";
+    $sql = "SELECT * FROM administrators WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -30,29 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $result->fetch_assoc();
     
     if ($user) {
-        $table = 'students';
-    } else {
-        // Check if email exists in lecturers table
-        $sql = "SELECT * FROM lecturers WHERE email = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
-        
-        if ($user) {
-            $table = 'lecturers';
-        } 
-    }
+        $table = 'administrators';
+    } 
     
     if ($user && password_verify($password, $user['password'])) {
-        if ($table === 'students') {
-            $_SESSION['student_id'] = $user['student_id'];
-            echo json_encode(['success' => true, 'role' => 'student', 'message' => 'Student Login successful!']);
-        } elseif ($table === 'lecturers') {
-            $_SESSION['lecturer_id'] = $user['lecturer_id'];
-            echo json_encode(['success' => true, 'role' => 'lecturer', 'message' => 'Lecturer Login successful!']);
-        } 
+        if ($table === 'administrators') {
+            $_SESSION['admin_id'] = $user['admin_id'];
+            echo json_encode(['success' => true, 'role' => 'admin', 'message' => 'Admin Login successful!']);
+        }
+
     } else {
         echo json_encode(['success' => false, 'message' => 'Invalid email or password.']);
     }

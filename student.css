@@ -1,0 +1,32 @@
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.timer {
+    font-family: monospace;
+    font-size: 1.5rem;
+    color: #dc2626;
+    font-weight: bold;
+}
+.question-container {
+    border-left: 4px solid #3b82f6;
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+}
+.chat-message {
+    max-width: 70%;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 1rem;
+}
+.sent-message {
+    background-color: #3b82f6;
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 0.25rem;
+}
+.received-message {
+    background-color: #e5e7eb;
+    margin-right: auto;
+    border-bottom-left-radius: 0.25rem;
+}

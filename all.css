@@ -1,0 +1,34 @@
+    .tab-content {
+    display: none;
+    animation: fadeIn 0.5s;
+    }
+    .tab-content.active {
+    display: block;
+    }
+    @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+    }
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    animation: modalFadeIn 0.3s;
+    }
+    .chat-message {
+    max-height: 300px;
+    overflow-y: auto;
+    }
